@@ -1,0 +1,14 @@
+{
+  "name": "pasopati-engine",
+  "private": true,
+  "scripts": {
+    "build": "esbuild engine.js --bundle --minify --format=iife --target=es2020 --outfile=../assets/pasopati-engine.js"
+  },
+  "dependencies": {
+    "@noble/ciphers": "^2.4.0",
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
+    "@noble/post-quantum": "^0.7.1",
+    "esbuild": "^0.28.2"
+  }
+}
