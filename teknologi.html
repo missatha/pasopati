@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="assets/pasopati-engine.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0F2C">
+<title>Teknologi · PASOPATI</title>
+<meta name="description" content="PASOPATI: Perlindungan Autentikasi Sandi Operasi Pasca-kuantum Anti Tiruan & Intersepsi. Purwarupa Kartika Cyber Hackathon 2026.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">Lewati ke konten</a>
+
+<header class="nav"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="PASOPATI, ke Beranda"><img src="assets/logo-kotak.png" alt="" width="38" height="38">PASOPATI</a>
+  <nav class="menu" aria-label="Menu utama">
+    <a href="index.html" class="" >Beranda</a><a href="medan-uji.html" class="" >Medan Uji<span class="live-dot" aria-hidden="true"></span></a><a href="teknologi.html" class="on" aria-current="page">Teknologi</a><a href="peta-jalan.html" class="" >Peta Jalan</a><a href="modul.html" class="" >Modul</a>
+  </nav>
+  <details class="mnav"><summary aria-label="Buka menu"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><div class="drop">
+    <a href="index.html" class="">Beranda</a><a href="medan-uji.html" class="">Medan Uji</a><a href="teknologi.html" class="on">Teknologi</a><a href="peta-jalan.html" class="">Peta Jalan</a><a href="modul.html" class="">Modul</a>
+  </div></details>
+  <a class="btn btn-gold cta" href="konsol.html"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg><span>Masuk Konsol</span></a>
+</div></header>
+
+<main id="main">
+
+<section class="page-hero grid-bg"><div class="wrap">
+  <div class="label">Teknologi</div>
+  <h1>Standar internasional, <span class="hl">bukan sandi buatan sendiri.</span></h1>
+  <p class="lead">PASOPATI memakai algoritma yang dibakukan NIST pada 2024 dan keluarga sandi yang sama dengan yang diwajibkan untuk sistem militer AS (CNSA 2.0).</p>
+</div></section>
+
+<section style="padding-top:30px"><div class="wrap">
+  <div class="sec-head"><div class="label">Alur sebuah perintah</div><h2>Dari Pusat Komando ke satuan dalam 4 langkah</h2></div>
+  <div class="flow" data-stagger>
+    <div class="node reveal"><div class="num">01</div><div class="t" style="margin-top:6px">Paraf</div><p>Pusat Komando memaraf perintah dengan ML-DSA-65, plus nomor urut, waktu, dan nonce.</p></div>
+    <div class="arr" aria-hidden="true"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+    <div class="node reveal"><div class="num">02</div><div class="t" style="margin-top:6px">Segel</div><p>Dimasukkan ke amplop AES-256-GCM dengan kunci sesi hibrida X25519 + ML-KEM-768.</p></div>
+    <div class="arr" aria-hidden="true"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+    <div class="node reveal"><div class="num">03</div><div class="t" style="margin-top:6px">Kirim</div><p>Lewat jaringan apa pun. Penyadap hanya melihat data acak.</p></div>
+    <div class="arr" aria-hidden="true"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+    <div class="node reveal"><div class="num">04</div><div class="t" style="margin-top:6px">7 pemeriksaan</div><p>Segel, pengirim, wewenang, paraf, tujuan, masa berlaku, dan anti kiriman ulang.</p></div>
+  </div>
+</div></section>
+
+<section class="grid-bg"><div class="wrap">
+  <div class="g2" style="align-items:start">
+    <div class="card reveal"><h3 style="margin-bottom:12px">Algoritma yang dipakai</h3>
+      <table class="spec">
+        <tr><th>Fungsi</th><th>Algoritma</th><th>Standar</th></tr>
+        <tr><td>Paraf digital</td><td class="m">ML-DSA-65</td><td class="soft">NIST FIPS 204</td></tr>
+        <tr><td>Kunci pasca-kuantum</td><td class="m">ML-KEM-768</td><td class="soft">NIST FIPS 203</td></tr>
+        <tr><td>Kunci klasik (hibrida)</td><td class="m">X25519</td><td class="soft">RFC 7748</td></tr>
+        <tr><td>Penurunan kunci</td><td class="m">HKDF-SHA384</td><td class="soft">RFC 5869</td></tr>
+        <tr><td>Segel pesan</td><td class="m">AES-256-GCM</td><td class="soft">NIST SP 800-38D</td></tr>
+        <tr><td>Rantai register</td><td class="m">SHA-256</td><td class="soft">FIPS 180-4</td></tr>
+      </table></div>
+    <div class="reveal" style="display:flex;flex-direction:column;gap:16px">
+      <div class="card"><h3>Kenapa hibrida (dua lapis)?</h3><p class="soft" style="margin-top:10px">Kunci sesi diturunkan dari X25519 <b style="color:var(--text)">dan</b> ML-KEM sekaligus. Selama masa peralihan, kalau salah satu kelak ditemukan lemah, yang lain masih menjaga. Pendekatan gabungan ini juga sedang dijajaki gugus tugas BSSN.</p></div>
+      <div><div class="label" style="margin-bottom:12px">Paket yang benar-benar lewat jaringan</div><pre>{
+  "sid": "7f3a91c0d2e4c21e",
+  "from": "PUSKOM", "to": "SATUAN-ALFA",
+  "nonce": "q3Jk1v…",
+  "ct": "Zm9yZ2V0IGl0LCB0aGlzIGlzIGVuY3J5cHRlZA…"
+}
+// setelah segel dibuka di satuan:
+{ "body": { "from": "PUSKOM", "seq": 142, "ts": 1794667000,
+            "nonce": "e1c0…", "order": { "operasi": "Patroli" } },
+  "sig": "&lt;3.309 byte paraf ML-DSA-65&gt;" }</pre></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head"><div class="label">Kinerja · live</div><h2>Diukur langsung di browser kamu</h2>
+    <p class="lead">Median 5 kali percobaan di perangkatmu, memakai pustaka JavaScript @noble. Versi lapangan memakai pustaka teruji seperti liboqs.</p></div>
+  <div class="card">
+    <button class="btn btn-gold" id="benchBtn">Jalankan pengukuran</button>
+    <p class="sr-only" role="status" id="bst"></p>
+    <div class="tbl-wrap" style="margin-top:18px"><table class="spec"><thead><tr><th>Operasi</th><th>Waktu (ms)</th><th>Ukuran</th></tr></thead><tbody id="bench"><tr><td colspan="3" class="dim">Klik tombol di atas untuk mengukur.</td></tr></tbody></table></div>
+  </div>
+</div></section>
+
+<section class="grid-bg"><div class="wrap">
+  <div class="sec-head"><div class="label">Keterbatasan purwarupa</div><h2>Jujur soal yang belum siap</h2></div>
+  <div class="g2" data-stagger>
+    <div class="card reveal"><h3>Pustaka sandi percobaan</h3><p class="soft" style="margin-top:8px">Versi web memakai @noble (JavaScript) dan modul unduhan memakai Python; keduanya belum diaudit untuk militer. Versi lapangan memakai liboqs atau OpenSSL 3.5 yang teruji.</p></div>
+    <div class="card reveal"><h3>Kunci disimpan di file</h3><p class="soft" style="margin-top:8px">Versi lapangan menyimpan kunci di kartu pintar atau HSM, sehingga tidak bisa disalin.</p></div>
+    <div class="card reveal"><h3>Ukuran paraf 3,3 KB</h3><p class="soft" style="margin-top:8px">Berat untuk radio taktis bandwidth kecil. Perlu gateway dan optimasi ukuran.</p></div>
+    <div class="card reveal"><h3>Tingkat keamanan menengah</h3><p class="soft" style="margin-top:8px">CNSA 2.0 memakai ML-KEM-1024 dan ML-DSA-87. Bisa dinaikkan tanpa mengubah rancangan.</p></div>
+  </div>
+  <div class="cta-row"><a class="btn btn-ghost" href="modul.html"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg> Unduh modul</a><a class="btn btn-ghost" href="https://github.com/missatha/pasopati"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-.8-2.3c2.7-.3 5.5-1.3 5.5-6a4.7 4.7 0 0 0-1.3-3.2 4.4 4.4 0 0 0-.1-3.2s-1-.3-3.3 1.3a11.4 11.4 0 0 0-6 0C6.7 2.5 5.7 2.8 5.7 2.8a4.4 4.4 0 0 0-.1 3.2A4.7 4.7 0 0 0 4.3 9.2c0 4.7 2.8 5.7 5.5 6a3 3 0 0 0-.8 2.3V21"/></svg> Kode sumber di GitHub</a></div>
+</div></section>
+
+</main>
+
+<footer class="dark"><div class="wrap">
+  <div style="max-width:420px">
+    <a class="brand" href="index.html"><img src="assets/logo-kotak.png" alt="" width="30" height="30">PASOPATI</a>
+    <p style="margin-top:12px">Perlindungan Autentikasi Sandi Operasi Pasca-kuantum Anti Tiruan &amp; Intersepsi. Kartika Cyber Hackathon 2026 · Kategori Penangkalan.</p>
+  </div>
+  <nav aria-label="Menu bawah"><a href="index.html">Beranda</a><a href="medan-uji.html">Medan Uji</a><a href="teknologi.html">Teknologi</a><a href="peta-jalan.html">Peta Jalan</a><a href="modul.html">Modul</a><a href="konsol.html">Masuk Konsol</a></nav>
+  <p style="max-width:420px">Purwarupa untuk keperluan lomba. Semua perintah, satuan, dan data logistik di situs ini adalah data simulasi.</p>
+</div></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const post = (u, b) => fetch(u, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(b||{})}).then(r => r.json());
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.12});
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+function countTo(el, v){ if (!el) return; const s = parseInt(el.textContent) || 0; if (reduceMotion || s === v) { el.textContent = v; return; }
+  const t0 = performance.now(); const step = now => { const k = Math.min(1, (now - t0) / 700); el.textContent = Math.round(s + (v - s) * k); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+document.querySelector(".mnav") && document.addEventListener("click", e => { const d = document.querySelector(".mnav"); if (d.open && !d.contains(e.target)) d.open = false; });
+</script>
+<script type="module">
+// Motion (dulu Framer Motion) lewat CDN. Kalau gagal dimuat, situs tetap jalan dengan animasi CSS.
+try {
+  const { animate, inView, stagger } = await import("https://cdn.jsdelivr.net/npm/motion@12/+esm");
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll("[data-stagger]").forEach(group => {
+      const items = group.querySelectorAll(":scope > *");
+      items.forEach(el => { el.classList.remove("reveal"); el.style.opacity = 0; });
+      inView(group, () => { animate(items, { opacity: [0, 1], y: [26, 0], scale: [0.97, 1] }, { delay: stagger(0.08), type: "spring", stiffness: 260, damping: 24 }); }, { amount: 0.15 });
+    });
+    window.motionResult = (card, accepted) => {
+      if (accepted) animate(card, { scale: [0.96, 1], opacity: [0.4, 1] }, { type: "spring", stiffness: 380, damping: 20 });
+      else animate(card, { x: [0, -10, 9, -6, 4, 0] }, { duration: 0.45, ease: "easeOut" });
+      const pill = card.querySelector(".pill"); if (pill) animate(pill, { scale: [1.5, 1] }, { type: "spring", stiffness: 500, damping: 14 });
+      animate(card.querySelectorAll("li"), { opacity: [0, 1], x: [-8, 0] }, { delay: stagger(0.05), duration: 0.25 });
+    };
+  }
+} catch (e) { /* tanpa Motion */ }
+</script>
+
+<script>
+$("benchBtn").onclick = async () => {
+  const b = $("benchBtn"); b.disabled = true; b.textContent = "Mengukur…"; $("bst").textContent = "Mengukur kinerja";
+  try { const rows = await fetch("/api/benchmark").then(r => r.json());
+    $("bench").innerHTML = rows.map(r => `<tr><td>${esc(r.op)}</td><td class="m">${r.ms}</td><td class="soft mono" style="font-size:13px">${esc(r.size || "")}</td></tr>`).join("");
+    $("bst").textContent = "Pengukuran selesai"; }
+  catch(e) { $("bench").innerHTML = '<tr><td colspan="3" class="dim">Server tidak terjangkau.</td></tr>'; }
+  b.disabled = false; b.textContent = "Ukur ulang";
+};
+</script>
+
+</body>
+</html>

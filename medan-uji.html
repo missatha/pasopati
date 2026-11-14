@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="assets/pasopati-engine.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0F2C">
+<title>Medan Uji · PASOPATI</title>
+<meta name="description" content="PASOPATI: Perlindungan Autentikasi Sandi Operasi Pasca-kuantum Anti Tiruan & Intersepsi. Purwarupa Kartika Cyber Hackathon 2026.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">Lewati ke konten</a>
+
+<header class="nav"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="PASOPATI, ke Beranda"><img src="assets/logo-kotak.png" alt="" width="38" height="38">PASOPATI</a>
+  <nav class="menu" aria-label="Menu utama">
+    <a href="index.html" class="" >Beranda</a><a href="medan-uji.html" class="on" aria-current="page">Medan Uji<span class="live-dot" aria-hidden="true"></span></a><a href="teknologi.html" class="" >Teknologi</a><a href="peta-jalan.html" class="" >Peta Jalan</a><a href="modul.html" class="" >Modul</a>
+  </nav>
+  <details class="mnav"><summary aria-label="Buka menu"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><div class="drop">
+    <a href="index.html" class="">Beranda</a><a href="medan-uji.html" class="on">Medan Uji</a><a href="teknologi.html" class="">Teknologi</a><a href="peta-jalan.html" class="">Peta Jalan</a><a href="modul.html" class="">Modul</a>
+  </div></details>
+  <a class="btn btn-gold cta" href="konsol.html"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg><span>Masuk Konsol</span></a>
+</div></header>
+
+<main id="main">
+
+<section class="page-hero grid-bg"><div class="wrap">
+  <div class="label">Medan Uji · live</div>
+  <h1>Jadilah penyerang. <span class="hl">Coba tembus.</span></h1>
+  <p class="lead">Setiap tombol menjalankan sandi sungguhan langsung di browser kamu, tanpa server: paraf ML-DSA, kunci ML-KEM, dan segel AES-GCM. Kirim perintah sah dulu, lalu coba semua cara menyerang.</p>
+</div></section>
+
+<section style="padding-top:20px"><div class="wrap">
+  <div class="score" aria-live="off">
+    <div class="card"><div class="v" id="sc_try">0</div><div class="k">serangan kamu lancarkan</div></div>
+    <div class="card"><div class="v hl" id="sc_stop">0</div><div class="k">ditolak atau terdeteksi</div></div>
+    <div class="card"><div class="v" id="sc_pass" style="color:var(--ok)">0</div><div class="k">serangan yang tembus</div></div>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Jenis serangan">
+    <button class="tab" role="tab" id="t-cmd" aria-selected="true" aria-controls="p-cmd">Serangan perintah</button>
+    <button class="tab" role="tab" id="t-log" aria-selected="false" aria-controls="p-log">Serangan logistik</button>
+  </div>
+
+  <div class="range" id="p-cmd" role="tabpanel" aria-labelledby="t-cmd">
+    <div class="actions">
+      <button class="act" data-k="send"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg> Kirim perintah sah dari Pusat Komando</span><small>LANGKAH 1</small></button>
+      <button class="act atk" data-k="replay"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Kirim ulang perintah yang disadap</span><small>REPLAY</small></button>
+      <button class="act atk" data-k="tamper"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> Ubah 1 bit isi pesan di jalan</span><small>TAMPER</small></button>
+      <button class="act atk" data-k="forge"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Mengaku sebagai Pusat Komando</span><small>PEMALSUAN</small></button>
+      <button class="act atk" data-k="expired"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Tahan perintah, kirim 1 jam kemudian</span><small>KEDALUWARSA</small></button>
+      <button class="act atk" data-k="misroute"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M8 21H3v-5"/><path d="M21 3 14 10"/><path d="M3 21l7-7"/></svg> Belokkan perintah satuan lain</span><small>SALAH ALAMAT</small></button>
+    </div>
+    <div>
+      <p class="sr-only" role="status" aria-atomic="true" id="srs"></p>
+      <div class="card result" id="res"><div class="empty">// hasil pemeriksaan di SATUAN-ALFA muncul di sini · semua sandi dijalankan di browser kamu</div></div>
+    </div>
+  </div>
+
+  <div class="range" id="p-log" role="tabpanel" aria-labelledby="t-log" hidden>
+    <div class="actions">
+      <div class="g2" style="gap:12px">
+        <div class="field"><label for="m_idx">Nomor catatan</label><input id="m_idx" type="number" min="1" value="1"></div>
+        <div class="field"><label for="m_qty">Jumlah palsu</label><input id="m_qty" type="number" value="20"></div>
+      </div>
+      <button class="act atk" data-l="naive"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> Orang dalam mengubah jumlah di database</span><small>UBAH DATA</small></button>
+      <button class="act atk" data-l="rehash"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg> Ubah jumlah + hitung ulang semua hash</span><small>HAPUS JEJAK</small></button>
+      <button class="act atk" data-l="forge"><span class="al"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Catatan palsu atas nama Gudang Pusat</span><small>PEMALSUAN</small></button>
+      <div class="cta-row" style="margin:6px 0 0">
+        <button class="btn btn-ghost" id="auditBtn"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="m8.5 11 2 2 3.5-3.5"/></svg> Audit register</button>
+        <button class="btn btn-ghost" id="resetBtn">Pulihkan data</button>
+      </div>
+      <p class="sr-only" role="status" aria-atomic="true" id="srl"></p>
+      <div class="card" id="lres" style="min-height:80px"><div class="dim mono" style="font-size:14px">// hasil audit muncul di sini</div></div>
+    </div>
+    <div class="card"><h3 style="margin-bottom:12px">Register logistik</h3><div class="tbl-wrap"><table class="ledger"><thead><tr><th>#</th><th>Pencatat</th><th>Barang</th><th>Jumlah</th><th>Rute</th><th>Status</th></tr></thead><tbody id="ledger"></tbody></table></div></div>
+  </div>
+</div></section>
+
+</main>
+
+<footer class="dark"><div class="wrap">
+  <div style="max-width:420px">
+    <a class="brand" href="index.html"><img src="assets/logo-kotak.png" alt="" width="30" height="30">PASOPATI</a>
+    <p style="margin-top:12px">Perlindungan Autentikasi Sandi Operasi Pasca-kuantum Anti Tiruan &amp; Intersepsi. Kartika Cyber Hackathon 2026 · Kategori Penangkalan.</p>
+  </div>
+  <nav aria-label="Menu bawah"><a href="index.html">Beranda</a><a href="medan-uji.html">Medan Uji</a><a href="teknologi.html">Teknologi</a><a href="peta-jalan.html">Peta Jalan</a><a href="modul.html">Modul</a><a href="konsol.html">Masuk Konsol</a></nav>
+  <p style="max-width:420px">Purwarupa untuk keperluan lomba. Semua perintah, satuan, dan data logistik di situs ini adalah data simulasi.</p>
+</div></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const post = (u, b) => fetch(u, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(b||{})}).then(r => r.json());
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.12});
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+function countTo(el, v){ if (!el) return; const s = parseInt(el.textContent) || 0; if (reduceMotion || s === v) { el.textContent = v; return; }
+  const t0 = performance.now(); const step = now => { const k = Math.min(1, (now - t0) / 700); el.textContent = Math.round(s + (v - s) * k); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+document.querySelector(".mnav") && document.addEventListener("click", e => { const d = document.querySelector(".mnav"); if (d.open && !d.contains(e.target)) d.open = false; });
+</script>
+<script type="module">
+// Motion (dulu Framer Motion) lewat CDN. Kalau gagal dimuat, situs tetap jalan dengan animasi CSS.
+try {
+  const { animate, inView, stagger } = await import("https://cdn.jsdelivr.net/npm/motion@12/+esm");
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll("[data-stagger]").forEach(group => {
+      const items = group.querySelectorAll(":scope > *");
+      items.forEach(el => { el.classList.remove("reveal"); el.style.opacity = 0; });
+      inView(group, () => { animate(items, { opacity: [0, 1], y: [26, 0], scale: [0.97, 1] }, { delay: stagger(0.08), type: "spring", stiffness: 260, damping: 24 }); }, { amount: 0.15 });
+    });
+    window.motionResult = (card, accepted) => {
+      if (accepted) animate(card, { scale: [0.96, 1], opacity: [0.4, 1] }, { type: "spring", stiffness: 380, damping: 20 });
+      else animate(card, { x: [0, -10, 9, -6, 4, 0] }, { duration: 0.45, ease: "easeOut" });
+      const pill = card.querySelector(".pill"); if (pill) animate(pill, { scale: [1.5, 1] }, { type: "spring", stiffness: 500, damping: 14 });
+      animate(card.querySelectorAll("li"), { opacity: [0, 1], x: [-8, 0] }, { delay: stagger(0.05), duration: 0.25 });
+    };
+  }
+} catch (e) { /* tanpa Motion */ }
+</script>
+
+<script>
+let score = {t:0, s:0, p:0}, audit = null;
+function bump(stopped){ score.t++; stopped ? score.s++ : score.p++; countTo($("sc_try"), score.t); countTo($("sc_stop"), score.s); countTo($("sc_pass"), score.p); }
+// tab
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === t));
+  $("p-cmd").hidden = t.id !== "t-cmd"; $("p-log").hidden = t.id !== "t-log"; if (t.id === "t-log") loadLedger(); });
+
+const labels = {send:"Perintah sah", replay:"Serangan: kirim ulang", tamper:"Serangan: ubah isi", forge:"Serangan: pemalsuan identitas", expired:"Serangan: perintah kedaluwarsa", misroute:"Serangan: salah alamat"};
+document.querySelectorAll("[data-k]").forEach(b => b.onclick = async () => {
+  const kind = b.dataset.k; b.disabled = true;
+  $("res").innerHTML = '<div class="empty">// memproses… memaraf, menyegel, memeriksa</div>';
+  let r;
+  try { r = kind === "send" ? await post("/api/command", {to:"SATUAN-ALFA", operasi:"Patroli pengamanan perbatasan", sasaran:"Sektor 7, grid 4521", prioritas:"Normal"})
+                            : await post("/api/attack/" + kind, {to:"SATUAN-ALFA"}); }
+  catch(e) { $("res").innerHTML = '<div class="empty">// server tidak terjangkau</div>'; b.disabled = false; return; }
+  b.disabled = false;
+  if (r.error) { $("res").innerHTML = '<div class="empty">// ' + esc(r.error) + '</div>'; return; }
+  if (kind !== "send") bump(!r.accepted);
+  $("res").innerHTML = `
+    <div class="head"><h3>${esc(labels[kind])}</h3><span class="pill ${r.accepted ? "ok" : "bad"}">${r.accepted ? "DITERIMA" : "DITOLAK"}</span></div>
+    <div class="meta">${esc(r.time)} · sesi ${esc(r.packet.sid)} · ${r.packet.ct_bytes} B terenkripsi${r.sig_bytes ? " · paraf " + r.sig_bytes + " B" : ""}</div>
+    ${r.order ? `<div class="ord"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg> ${esc(r.order.operasi)} — ${esc(r.order.sasaran)}${r.claimed_from ? ` <span class="soft">(mengaku dari ${esc(r.claimed_from)})</span>` : ""}</div>` : ""}
+    <ul>${r.checks.map(c => `<li class="${c.ok ? "y" : "x"}">${c.ok ? "✔" : "✘"} ${esc(c.check)} <span class="soft">— ${esc(c.detail)}</span></li>`).join("")}</ul>`;
+  $("srs").textContent = labels[kind] + ": " + (r.accepted ? "diterima" : "ditolak, " + ((r.checks.find(c => !c.ok) || {}).check || ""));
+  if (window.motionResult) window.motionResult($("res"), r.accepted);
+});
+
+async function loadLedger(){
+  const s = await fetch("/api/state", {cache:"no-store"}).then(r => r.json());
+  const st = {}; if (audit) audit.rows.forEach(r => st[r.idx] = r);
+  $("ledger").innerHTML = s.ledger.map(r => { const a = st[r.idx], b = r.body;
+    const badge = a ? (a.ok ? '<span class="pill ok">UTUH</span>' : `<span class="pill bad">RUSAK</span><div style="color:var(--warn);font-size:12px;margin-top:4px">${a.problems.map(esc).join("<br>")}</div>`) : '<span class="dim">–</span>';
+    return `<tr class="${a && !a.ok ? "broken" : ""}"><td>${r.idx}</td><td>${esc(b.signer)}</td><td>${esc(b.item)}</td><td><b>${esc(b.qty)}</b></td><td>${esc(b.dari)} → ${esc(b.ke)}</td><td>${badge}</td></tr>`; }).join("");
+}
+function showAudit(a, label){
+  audit = a; const bad = a.rows.filter(r => !r.ok).length;
+  $("lres").innerHTML = a.ok ? `<div class="head" style="display:flex;justify-content:space-between;gap:10px"><b>${esc(label)}</b><span class="pill ok">UTUH</span></div><p class="soft" style="margin-top:8px">Seluruh ${a.rows.length} catatan asli dan tidak berubah.</p>`
+    : `<div style="display:flex;justify-content:space-between;gap:10px"><b>${esc(label)}</b><span class="pill bad">TERDETEKSI</span></div><p class="soft" style="margin-top:8px">${bad} catatan terdeteksi dimanipulasi. Lihat alasannya di tabel.</p>`;
+  $("srl").textContent = label + ": " + (a.ok ? "register utuh" : bad + " catatan terdeteksi dimanipulasi");
+  if (window.motionResult) window.motionResult($("lres"), a.ok);
+  loadLedger();
+}
+document.querySelectorAll("[data-l]").forEach(b => b.onclick = async () => {
+  const k = b.dataset.l; b.disabled = true;
+  try {
+    if (k === "forge") {
+      const r = await post("/api/logistics/forge"); bump(!r.ok);
+      $("lres").innerHTML = r.ok ? '<b style="color:var(--ok)">Catatan palsu diterima!</b>'
+        : `<div style="display:flex;justify-content:space-between;gap:10px"><b>Catatan palsu atas nama Gudang Pusat</b><span class="pill bad">DITOLAK</span></div><p class="soft" style="margin-top:8px">Register menolak: ${esc(r.info)}.</p>`;
+      $("srl").textContent = "Catatan palsu: " + (r.ok ? "diterima" : "ditolak"); if (window.motionResult) window.motionResult($("lres"), r.ok);
+    } else {
+      const a = await post("/api/logistics/tamper", {idx:$("m_idx").value, qty:$("m_qty").value, rehash:k === "rehash"});
+      if (a.error) { $("lres").innerHTML = '<div class="dim mono" style="font-size:14px">// ' + esc(a.error) + '</div>'; return; }
+      bump(!a.ok); showAudit(a, k === "rehash" ? "Jumlah diubah + jejak dihapus" : "Jumlah diubah di database");
+    }
+  } finally { b.disabled = false; }
+});
+$("auditBtn").onclick = async () => showAudit(await post("/api/logistics/verify"), "Audit register");
+$("resetBtn").onclick = async () => { await post("/api/logistics/reset"); audit = null; $("lres").innerHTML = '<div class="dim mono" style="font-size:14px">// data dipulihkan</div>'; loadLedger(); };
+</script>
+
+</body>
+</html>
