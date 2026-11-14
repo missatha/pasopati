@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="assets/pasopati-engine.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0F2C">
+<title>PASOPATI · Perintah yang tak bisa ditiru, sandi yang tak bisa dibongkar</title>
+<meta name="description" content="PASOPATI: Perlindungan Autentikasi Sandi Operasi Pasca-kuantum Anti Tiruan & Intersepsi. Purwarupa Kartika Cyber Hackathon 2026.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">Lewati ke konten</a>
+
+<header class="nav"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="PASOPATI, ke Beranda"><img src="assets/logo-kotak.png" alt="" width="38" height="38">PASOPATI</a>
+  <nav class="menu" aria-label="Menu utama">
+    <a href="index.html" class="on" aria-current="page">Beranda</a><a href="medan-uji.html" class="" >Medan Uji<span class="live-dot" aria-hidden="true"></span></a><a href="teknologi.html" class="" >Teknologi</a><a href="peta-jalan.html" class="" >Peta Jalan</a><a href="modul.html" class="" >Modul</a>
+  </nav>
+  <details class="mnav"><summary aria-label="Buka menu"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><div class="drop">
+    <a href="index.html" class="on">Beranda</a><a href="medan-uji.html" class="">Medan Uji</a><a href="teknologi.html" class="">Teknologi</a><a href="peta-jalan.html" class="">Peta Jalan</a><a href="modul.html" class="">Modul</a>
+  </div></details>
+  <a class="btn btn-gold cta" href="konsol.html"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg><span>Masuk Konsol</span></a>
+</div></header>
+
+<main id="main">
+
+<section class="hero grid-bg dark"><div class="wrap">
+  <div class="hero-copy">
+    <div class="wordmark"><img src="assets/logo-kotak.png" alt="" width="72" height="72"><h1>PASOPATI</h1></div>
+    <p class="acro"><b>P</b>erlindungan <b>A</b>utentikasi <b>S</b>andi <b>O</b>perasi <b>P</b>asca-kuantum <b>A</b>nti <b>T</b>iruan &amp; <b>I</b>ntersepsi.<br><span class="arjuna">Seperti panah Arjuna: selalu tepat sasaran.</span></p>
+    <p class="tagline"><span class="nw">Perintah yang <span class="hl">tak bisa ditiru.</span></span><br><span class="nw">Sandi yang tak bisa dibongkar.</span></p>
+    <div class="cta-row"><a class="btn btn-gold" href="medan-uji.html">Coba serang di Medan Uji <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a><a class="btn btn-ghost" href="#mengapa">Mengapa PASOPATI?</a></div>
+    <div class="chips"><span class="chip">ML-DSA · FIPS 204</span><span class="chip">ML-KEM · FIPS 203</span><span class="chip">X25519 HIBRIDA</span><span class="chip">AES-256-GCM</span></div>
+  </div>
+
+  <div class="hero-vis inbox good" id="inbox" aria-label="Ilustrasi: perintah sah dari Pusat Komando lolos ke satuan lapangan, sedangkan serangan penyusup dipantulkan perisai PASOPATI">
+    <div class="vis-head"><span>JALUR PERINTAH</span><span class="mode" id="imode">PERINTAH SAH</span></div>
+    <svg class="flow" viewBox="0 0 520 168" aria-hidden="true">
+      <defs>
+        <linearGradient id="trail" x1="0" x2="1"><stop offset="0" stop-color="#22D3EE" stop-opacity="0"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
+        <linearGradient id="trailr" x1="0" x2="1"><stop offset="0" stop-color="#FB7185" stop-opacity="0"/><stop offset="1" stop-color="#FB7185"/></linearGradient>
+        <radialGradient id="shg"><stop offset="0" stop-color="#8B5CF6" stop-opacity=".45"/><stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/></radialGradient>
+      </defs>
+      <line x1="104" y1="84" x2="416" y2="84" stroke="#2A2F63" stroke-width="2" stroke-dasharray="6 7"/>
+      <path id="jalur" d="M104 84 H416" fill="none" stroke="none"/>
+      <path id="jalurR" d="M402 6 L 290 70 L 430 20" fill="none" stroke="none"/>
+      <g transform="translate(72 84)"><circle r="32" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="2"/><path d="M-13 11h26M-10 11V-2l10-8 10 8v13" stroke="#C4B5FD" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text y="56" text-anchor="middle" fill="#A9BCD8" font-size="11" font-family="ui-monospace,monospace">PUSAT KOMANDO</text></g>
+      <g transform="translate(448 84)"><circle r="32" fill="#0E2A3A" stroke="#06B6D4" stroke-width="2"/><rect x="-13" y="-9" width="26" height="16" rx="3" stroke="#22D3EE" stroke-width="2.4" fill="none"/><path d="M-17 12h34" stroke="#22D3EE" stroke-width="2.4" stroke-linecap="round"/><text y="56" text-anchor="middle" fill="#A9BCD8" font-size="11" font-family="ui-monospace,monospace">SATUAN LAPANGAN</text></g>
+      <circle cx="260" cy="84" r="54" fill="url(#shg)"/>
+      <g id="perisai"><path d="M260 50 l-26 10 v20 c0 18 11 31 26 37 c15-6 26-19 26-37 v-20 z" fill="#131A3F" stroke="#8B5CF6" stroke-width="2.5"/>
+      <path d="m249 84 8 8 14-15" stroke="#34D399" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <text x="260" y="152" text-anchor="middle" fill="#C4B5FD" font-size="11" font-family="ui-monospace,monospace">PASOPATI</text>
+      <g id="panah" opacity="0"><path d="M-30 0 H0" stroke="url(#trail)" stroke-width="4" stroke-linecap="round"/><path d="M2 0 l-11 -6 v12 z" fill="#22D3EE"/></g>
+      <g id="panahR" opacity="0"><path d="M-26 0 H0" stroke="url(#trailr)" stroke-width="4" stroke-linecap="round"/><path d="M2 0 l-11 -6 v12 z" fill="#FB7185"/></g>
+    </svg>
+    <div class="inbox-body">
+      <div class="top"><span>SATUAN-ALFA · KOTAK MASUK</span><span class="mono dim">sesi 7f3a…c21e</span></div>
+      <div class="order" id="iord"></div>
+      <ul class="checks" id="ick">
+        <li><span class="ic">✔</span>Segel amplop utuh</li>
+        <li><span class="ic">✔</span>Pengirim terdaftar dan berwenang</li>
+        <li><span class="ic">✔</span>Paraf digital ML-DSA asli</li>
+        <li><span class="ic">✔</span>Ditujukan ke satuan ini</li>
+        <li><span class="ic">✔</span>Masih berlaku, bukan kiriman ulang</li>
+      </ul>
+      <div class="stamp"><span class="mono dim" style="font-size:12px">paraf 3.309 B · ML-DSA-65</span><span class="pill ok" id="ipill">DITERIMA</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="mengapa" class="why"><div class="wrap">
+  <div class="label reveal">Mengapa PASOPATI?</div>
+  <p class="why-text reveal">Selama ini, perintah operasi dan data logistik dijaga sandi yang dirancang untuk komputer biasa. Perintah bisa <em>dipalsukan atas nama komando,</em> komunikasi bisa <em>disadap hari ini dan dibuka nanti,</em> dan data logistik bisa <em>diubah diam-diam.</em> Semua risikonya ditanggung prajurit di lapangan.</p>
+  <p class="why-text reveal">PASOPATI menggantinya dengan perintah yang <em>diparaf digital,</em> <em>disegel dua lapis tahan kuantum,</em> dan <em>tercatat tanpa bisa diubah,</em> sehingga setiap perintah tepat sasaran, seperti panah Arjuna.</p>
+</div></section>
+
+<section id="ancaman"><div class="wrap">
+  <div class="sec-head"><div class="label reveal">Ancamannya nyata</div>
+    <h2 class="reveal">Disadap hari ini, <span class="hl">dibuka nanti.</span></h2>
+    <p class="lead reveal">Lawan bisa merekam komunikasi militer sekarang dan membukanya begitu komputer kuantum siap. Sandi yang dipakai hampir semua sistem saat ini (RSA, ECC) akan bisa dibongkar.</p></div>
+  <div class="g2" data-stagger>
+    <div class="side old reveal"><div class="label" style="color:var(--warn)">Sandi lama</div><h3 style="margin-top:12px">Kuat hari ini, rapuh besok</h3><ul><li>Perintah bisa dipalsukan atas nama Pusat Komando</li><li>Rekaman lama bisa dibuka setelah komputer kuantum siap</li><li>Data logistik bisa diubah diam-diam</li></ul></div>
+    <div class="side new reveal"><div class="label">PASOPATI</div><h3 style="margin-top:12px">Tahan sekarang dan nanti</h3><ul><li>Setiap perintah diparaf digital, tak bisa ditiru</li><li>Isi pesan disegel dua lapis: sandi lama + sandi pasca-kuantum</li><li>Setiap catatan logistik diparaf dan dirantai</li></ul></div>
+  </div>
+  <div class="g3" style="margin-top:20px" data-stagger>
+    <div class="card reveal"><div class="big-n">2024</div><p class="soft" style="margin-top:10px">NIST membakukan sandi pasca-kuantum ML-KEM (FIPS 203) dan ML-DSA (FIPS 204).</p></div>
+    <div class="card reveal"><div class="big-n">2027</div><p class="soft" style="margin-top:10px">AS mewajibkan sandi tahan kuantum untuk pembelian sistem militer baru mulai 1 Januari (CNSA 2.0).</p></div>
+    <div class="card reveal"><div class="big-n">2027–35</div><p class="soft" style="margin-top:10px">Peta jalan migrasi kriptografi pasca-kuantum nasional yang disiapkan BSSN.</p></div>
+  </div>
+</div></section>
+
+<section class="adapt"><div class="wrap">
+  <div class="label">Pesan utama</div>
+  <h2 class="reveal">ADAPT<br>OR DIE.</h2>
+  <p class="reveal">Sandi yang tidak beradaptasi akan dibongkar, dan semua rekaman lama ikut terbuka. Yang menyambut PQC lebih awal bisa beralih dengan tenang dan bertahap. Yang terlambat beralih dalam keadaan darurat.</p>
+</div></section>
+
+<section id="cara-kerja" class="grid-bg"><div class="wrap">
+  <div class="sec-head"><div class="label reveal">Cara kerja</div><h2 class="reveal">Cara PASOPATI menjawab: tiga lapis pelindung</h2></div>
+  <div class="g3" data-stagger>
+    <div class="card reveal"><div class="num">LAPIS 01</div><h3 style="margin:10px 0 8px">Paraf digital pada perintah</h3><p class="soft">Pusat Komando memaraf setiap perintah. Satuan memeriksa pengirim, wewenang, tujuan, masa berlaku, dan nomor urut.</p>
+      <div class="mock">perintah  : "Patroli Sektor 7"<br>no. urut  : #0142<br>berlaku   : 120 detik<br>paraf     : <span class="hl">ML-DSA-65 ✔</span><br>kiriman ulang? <span class="hl">tidak ✔</span></div></div>
+    <div class="card reveal"><div class="num">LAPIS 02</div><h3 style="margin:10px 0 8px">Amplop tersegel dua lapis</h3><p class="soft">Kunci sesi dibuat dari sandi lama dan sandi pasca-kuantum sekaligus. Lawan harus membongkar keduanya.</p>
+      <div class="mock env"><div class="l1">ML-KEM-768 · pasca-kuantum</div><div class="l2">X25519 · klasik</div><div class="msg">pesan · AES-256-GCM</div></div></div>
+    <div class="card reveal"><div class="num">LAPIS 03</div><h3 style="margin:10px 0 8px">Buku register logistik digital</h3><p class="soft">Setiap catatan amunisi, peralatan, kendaraan, dan personel diparaf dan disambung. Satu angka diubah, langsung ketahuan.</p>
+      <div class="mock"><div class="chain"><span class="blk">#1 <b>120 peti</b></span><span class="hl">→</span><span class="blk">#2 <b>4 truk</b></span><span class="hl">→</span><span class="blk">#3 <b>25 radio</b></span></div><div style="margin-top:12px">hash berantai: <span class="hl">SHA-256</span><br>paraf node&nbsp;&nbsp;: <span class="hl">ML-DSA-65</span></div></div></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head"><div class="label reveal">Pelajaran dari medan nyata</div><h2 class="reveal">Saat perintah dan jalur tanpa pelindung</h2></div>
+  <div class="g4" data-stagger>
+    <div class="card case reveal"><div class="y">RUSIA · 2022</div><h3>Telepon sandi lumpuh</h3><p>Telepon sandi Era butuh jaringan seluler yang hancur. Pasukan beralih ke HP dan radio biasa, lalu disadap.</p><div class="les">→ Jalur aman harus tetap jalan</div></div>
+    <div class="card case reveal"><div class="y">UKRAINA · 2014–17</div><h3>SMS palsu atas nama rekan</h3><p>Prajurit menerima SMS dari menara seluler palsu, disamarkan seolah dari sesama prajurit.</p><div class="les">→ Pengirim harus terbukti</div></div>
+    <div class="card case reveal"><div class="y">VIASAT · 2022</div><h3>Satu perintah, modem mati</h3><p>Perintah berbahaya dikirim ke puluhan ribu modem satelit; dikaitkan dengan upaya mengganggu komando Ukraina.</p><div class="les">→ Perintah wajib berparaf</div></div>
+    <div class="card case reveal"><div class="y">LEBANON · 2024</div><h3>Rantai pasok disusupi</h3><p>Pager diubah sebelum sampai ke pengguna; setidaknya 37 tewas dan hampir 3.000 luka.</p><div class="les">→ Logistik harus bisa diperiksa</div></div>
+  </div>
+  <p class="lead reveal" style="margin-top:28px">Belum satu pun karena komputer kuantum. Semuanya karena perintah dan data <b style="color:var(--text)">tidak bisa dibuktikan keasliannya</b>. PASOPATI menutup celah itu hari ini, dan tetap aman saat kuantum tiba.</p>
+</div></section>
+
+<section id="bukti" class="grid-bg"><div class="wrap">
+  <div class="sec-head"><div class="label reveal">Buktinya</div><h2 class="reveal">Jalan sekarang, di browser kamu</h2>
+    <p class="lead reveal">Angka di bawah dihitung dari sandi sungguhan yang dijalankan di perangkatmu. Coba serang sendiri di Medan Uji.</p></div>
+  <div class="metrics-card" aria-labelledby="mt">
+    <div class="livetag" id="lt"><span class="live-dot"></span><span id="mt">LIVE DI BROWSER KAMU</span> · <span id="lu">menghubungkan…</span></div>
+    <div class="row">
+      <div><div class="v" id="s_acc">–</div><div class="k">perintah sah diterima</div></div>
+      <div><div class="v hl" id="s_rej">–</div><div class="k">serangan ditolak</div></div>
+      <div><div class="v" id="s_led">–</div><div class="k">catatan logistik terparaf</div></div>
+      <div><div class="v" id="s_nod">–</div><div class="k">node beridentitas pasca-kuantum</div></div>
+      <a class="btn btn-gold" href="medan-uji.html">Jadi penyerang <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</div></section>
+
+<section class="grid-bg" style="padding-top:80px"><div class="wrap" style="max-width:900px">
+  <div class="sec-head"><div class="label reveal">Tanya jawab</div><h2 class="reveal">Pertanyaan yang sering muncul</h2></div>
+  <details class="faq"><summary>Apakah PASOPATI butuh komputer kuantum?</summary><p>Tidak. Sandi pasca-kuantum berjalan di komputer, laptop, dan perangkat biasa. Ia hanya dirancang agar tidak bisa dibongkar oleh komputer kuantum.</p></details>
+  <details class="faq"><summary>Kenapa harus sekarang, bukan saat komputer kuantum sudah ada?</summary><p>Karena rekaman komunikasi hari ini bisa dibuka nanti. Mengganti sandi di seluruh sistem juga butuh bertahun-tahun, dan negara lain sudah menetapkan tenggat mulai 2027.</p></details>
+  <details class="faq"><summary>Apakah TNI AD harus mengganti sistem yang ada?</summary><p>Tidak. PASOPATI adalah modul yang dipasang ke sistem komando dan logistik yang sudah ada, sebagai lapisan pelindung tambahan.</p></details>
+  <details class="faq"><summary>Bisa dipakai di radio taktis bandwidth kecil?</summary><p>Itu tantangan terbesar, karena paraf pasca-kuantum berukuran sekitar 3,3 KB. Rencananya lewat gateway dan optimasi ukuran. Rinciannya ada di halaman Peta Jalan.</p></details>
+</div></section>
+
+<section class="cta-band dark"><div class="wrap">
+  <div class="label reveal">Menyambut era pasca-kuantum</div>
+  <h2 class="reveal">Pasang sandi tahan kuantum <span class="hl">sekarang</span>, sebelum lawan siap.</h2>
+  <div class="cta-row reveal" style="justify-content:center"><a class="btn btn-gold" href="medan-uji.html">Coba serang di Medan Uji</a><a class="btn btn-ghost" href="modul.html"><svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg> Unduh modul</a></div>
+</div></section>
+
+</main>
+
+<footer class="dark"><div class="wrap">
+  <div style="max-width:420px">
+    <a class="brand" href="index.html"><img src="assets/logo-kotak.png" alt="" width="30" height="30">PASOPATI</a>
+    <p style="margin-top:12px">Perlindungan Autentikasi Sandi Operasi Pasca-kuantum Anti Tiruan &amp; Intersepsi. Kartika Cyber Hackathon 2026 · Kategori Penangkalan.</p>
+  </div>
+  <nav aria-label="Menu bawah"><a href="index.html">Beranda</a><a href="medan-uji.html">Medan Uji</a><a href="teknologi.html">Teknologi</a><a href="peta-jalan.html">Peta Jalan</a><a href="modul.html">Modul</a><a href="konsol.html">Masuk Konsol</a></nav>
+  <p style="max-width:420px">Purwarupa untuk keperluan lomba. Semua perintah, satuan, dan data logistik di situs ini adalah data simulasi.</p>
+</div></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const post = (u, b) => fetch(u, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(b||{})}).then(r => r.json());
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.12});
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+function countTo(el, v){ if (!el) return; const s = parseInt(el.textContent) || 0; if (reduceMotion || s === v) { el.textContent = v; return; }
+  const t0 = performance.now(); const step = now => { const k = Math.min(1, (now - t0) / 700); el.textContent = Math.round(s + (v - s) * k); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+document.querySelector(".mnav") && document.addEventListener("click", e => { const d = document.querySelector(".mnav"); if (d.open && !d.contains(e.target)) d.open = false; });
+</script>
+<script type="module">
+// Motion (dulu Framer Motion) lewat CDN. Kalau gagal dimuat, situs tetap jalan dengan animasi CSS.
+try {
+  const { animate, inView, stagger } = await import("https://cdn.jsdelivr.net/npm/motion@12/+esm");
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll("[data-stagger]").forEach(group => {
+      const items = group.querySelectorAll(":scope > *");
+      items.forEach(el => { el.classList.remove("reveal"); el.style.opacity = 0; });
+      inView(group, () => { animate(items, { opacity: [0, 1], y: [26, 0], scale: [0.97, 1] }, { delay: stagger(0.08), type: "spring", stiffness: 260, damping: 24 }); }, { amount: 0.15 });
+    });
+    window.motionResult = (card, accepted) => {
+      if (accepted) animate(card, { scale: [0.96, 1], opacity: [0.4, 1] }, { type: "spring", stiffness: 380, damping: 20 });
+      else animate(card, { x: [0, -10, 9, -6, 4, 0] }, { duration: 0.45, ease: "easeOut" });
+      const pill = card.querySelector(".pill"); if (pill) animate(pill, { scale: [1.5, 1] }, { type: "spring", stiffness: 500, damping: 14 });
+      animate(card.querySelectorAll("li"), { opacity: [0, 1], x: [-8, 0] }, { delay: stagger(0.05), duration: 0.25 });
+    };
+  }
+} catch (e) { /* tanpa Motion */ }
+</script>
+
+<script>
+// Ilustrasi hero: panah sah lolos ke satuan, panah penyusup dipantulkan perisai; kartu kotak masuk mengikuti.
+(function(){
+  const jalur = $("jalur"), jalurR = $("jalurR"), panah = $("panah"), panahR = $("panahR");
+  const li = [...document.querySelectorAll("#ick li")], pill = $("ipill"), box = $("inbox"), mode = $("imode"), ord = $("iord"), BASE = "hero-vis inbox";
+  const S = {
+    sah:   {ord: 'DARI&nbsp;&nbsp;&nbsp;&nbsp;: <b>PUSKOM</b><br>PERINTAH: <b>Patroli Sektor 7, grid 4521</b>', fail: -1},
+    palsu: {ord: 'DARI&nbsp;&nbsp;&nbsp;&nbsp;: <b class="bad">PUSKOM (dipalsukan)</b><br>PERINTAH: <b>Tarik mundur seluruh pasukan</b>', fail: 2}};
+  function place(g, path, t){ const L = path.getTotalLength(), p = path.getPointAtLength(t * L), q = path.getPointAtLength(Math.min(L, t * L + 1));
+    g.setAttribute("transform", `translate(${p.x} ${p.y}) rotate(${Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI})`); }
+  function fly(g, path, ms, done){ g.setAttribute("opacity", 1); const t0 = performance.now();
+    (function step(now){ const k = Math.min(1, (now - t0) / ms); place(g, path, k); if (k < 1) requestAnimationFrame(step); else { g.setAttribute("opacity", 0); done(); } })(t0); }
+  function card(kind){ const s = S[kind]; ord.innerHTML = s.ord; pill.className = "pill"; box.className = BASE;
+    mode.textContent = kind === "sah" ? "PERINTAH SAH" : "SERANGAN: PEMALSUAN"; mode.className = "mode" + (kind === "sah" ? "" : " atk");
+    li.forEach(l => { l.className = ""; l.querySelector(".ic").textContent = "✔"; });
+    let n = 0; li.forEach((l, i) => { if (s.fail >= 0 && i > s.fail) return; n = i + 1;
+      setTimeout(() => { if (i === s.fail) { l.className = "x"; l.querySelector(".ic").textContent = "✘"; box.className = BASE + " bad"; } else l.className = "on"; }, 120 + i * 230); });
+    setTimeout(() => { pill.textContent = kind === "sah" ? "DITERIMA" : "DITOLAK"; pill.className = "pill show " + (kind === "sah" ? "ok" : "bad"); if (kind === "sah") box.className = BASE + " good"; }, 120 + n * 230 + 100); }
+  function shake(){ const sh = $("perisai"); sh.style.transformBox = "fill-box"; sh.style.transformOrigin = "center"; sh.animate([{transform:"translate(0,0)"},{transform:"translate(-4px,0)"},{transform:"translate(4px,0)"},{transform:"translate(0,0)"}], {duration:300}); }
+  let kind = "sah";
+  function cycle(){
+    if (kind === "sah") fly(panah, jalur, 1500, () => { card("sah"); setTimeout(next, 2600); });
+    else fly(panahR, jalurR, 1300, () => { setTimeout(next, 2600); }), setTimeout(() => { shake(); card("palsu"); }, 620);
+  }
+  function next(){ kind = kind === "sah" ? "palsu" : "sah"; cycle(); }
+  if (reduceMotion) { card("sah"); li.forEach(l => l.className = "on"); pill.className = "pill show ok"; }
+  else { ord.innerHTML = S.sah.ord; cycle(); }
+})();
+async function stats(){ try { const s = await fetch("/api/stats", {cache:"no-store"}).then(r => { if (!r.ok) throw 0; return r.json(); });
+  countTo($("s_acc"), s.accepted); countTo($("s_rej"), s.rejected); countTo($("s_led"), s.ledger); countTo($("s_nod"), s.nodes);
+  $("lt").classList.remove("stale"); $("lu").textContent = "diperbarui " + new Date().toLocaleTimeString("id-ID");
+  } catch(e) { $("lt").classList.add("stale"); $("lu").textContent = "tidak terhubung, menampilkan data terakhir"; } }
+stats(); setInterval(() => { if (!document.hidden) stats(); }, 8000);
+</script>
+
+</body>
+</html>
