@@ -26,7 +26,7 @@ Semua sandi berjalan **langsung di browser**, tanpa server:
 | **Teknologi** | Alur perintah, algoritma, pengukuran kecepatan di perangkatmu |
 | **Peta Jalan** | 4 langkah menyambut PQC, perangkat yang didukung, keselarasan BSSN/CNSA/NATO |
 | **Modul** | Unduh modul Python `pasopati` (purwarupa) |
-| **Masuk Konsol** | Konsol per peran: Pusat Komando, Satuan Lapangan, Auditor Logistik |
+| **Masuk Konsol** | Login akun siap pakai (PUSKOM, Satuan Alfa/Bravo, Penyusup, Auditor). Tiap akun di tab berbeda saling kirim perintah lewat jaringan demo; ada mode panggung 3 layar, matriks hak akses, jejak audit, dan cabut akses |
 
 ## Cara memasang di GitHub Pages
 
@@ -57,3 +57,9 @@ Membangun ulang mesin: `cd sumber-mesin && npm install && npm run build`
 - Paraf ML-DSA-65 berukuran 3,3 KB, perlu optimasi untuk radio taktis.
 
 > Purwarupa untuk keperluan lomba. Semua perintah, satuan, dan data logistik adalah simulasi.
+
+## Akun demo Konsol
+
+Akun siap pakai: PUSKOM-01, SATUAN-ALFA, SATUAN-BRAVO, PENYUSUP-X, AUDITOR-01. PIN dibagikan tim saat presentasi.
+
+Catatan: situs ini statis (tanpa server), jadi PIN hanya gerbang demo dan semua akun berjalan di satu browser. Pemisahan data tetap dipaksakan oleh sandi: tiap pesan disegel dengan kunci ML-KEM + X25519 milik penerimanya.

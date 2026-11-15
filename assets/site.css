@@ -368,3 +368,45 @@ html.pl-lock,html.pl-lock body{overflow:hidden}
 @keyframes plTwang{0%,100%{transform:none}30%{transform:translateY(-3px)}60%{transform:translateY(2px)}}
 .preloader.done{transform:translateY(-100%)}
 @media(prefers-reduced-motion:reduce){.pl-bits span{animation:none;opacity:.25}html.js .preloader{transition-duration:.3s}}
+
+/* ---------- konsol: login akun siap pakai ---------- */
+.kn-accs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.kn-acc{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;min-height:150px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.kn-acc:hover{border-color:var(--accent);transform:translateY(-2px)}
+.kn-acc:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.kn-acc.sel{border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
+.kn-acc.red{border-color:var(--bad-line);background:linear-gradient(180deg,#2a1530,var(--panel))}
+.kn-acc.off{opacity:.55}
+.kn-acc .em{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:700 15px var(--mono);background:var(--indigo);border:1px solid var(--violet);color:var(--hl);margin:22px 0 10px}
+.kn-acc.red .em{border-color:var(--warn);color:var(--warn);background:#2a1530}
+.kn-acc .cs{font:700 16px var(--head)}.kn-acc .rl{font:11px var(--mono);color:var(--soft);letter-spacing:.04em}
+.kn-acc .st{position:absolute;top:12px;left:16px;right:12px;font:11px var(--mono);color:var(--dim)}.kn-acc .st.on{color:var(--ok)}
+.kn-login{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:18px;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px 20px}
+.kn-who{font:700 18px var(--head);margin-top:4px}
+.kn-pin{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--text);font:600 22px var(--mono);letter-spacing:.5em;width:150px;min-height:48px;text-align:center}
+.kn-pin::placeholder{letter-spacing:.1em;font-size:14px;color:var(--dim)}
+.kn-pin:focus{outline:2px solid var(--accent);outline-offset:1px}
+.kn-login .btn{margin-left:auto}
+.kn-msg{flex-basis:100%;font:13px var(--mono);min-height:0}.kn-msg.bad{color:var(--warn)}
+.kn-note{font-size:14px;margin-top:14px}
+.kn-stage{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:22px;padding:22px}
+.kn-stage h3{margin:6px 0 4px}.kn-stage form{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.kn-matrix td.y{color:var(--ok)}.kn-matrix td.n{color:var(--warn)}
+.kn-princ{margin-top:22px}.kn-princ h3{margin:8px 0 6px;font-size:19px}
+@media(max-width:1100px){.kn-accs{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.kn-accs{grid-template-columns:1fr 1fr}.kn-login .btn{margin-left:0}}
+.kn-pw{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--text);font:600 16px var(--body);width:240px;min-height:48px}
+.kn-pw:focus,.kn-otp:focus{outline:2px solid var(--accent);outline-offset:1px}
+.kn-otp{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--text);font:600 20px var(--mono);letter-spacing:.35em;width:170px;min-height:48px;text-align:center}
+.kn-otp::placeholder{color:var(--dim)}
+.kn-msg.ok{color:var(--ok)}
+.kn-acc .tf{font:11px var(--mono);color:var(--soft);margin-top:8px}
+.kn-2fa{margin-top:14px;padding:22px;border-color:var(--accent)}
+.kn-2fa[hidden]{display:none}
+.kn-2fa h3{margin:6px 0 4px}
+.kn-2row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.kn-2row>div:first-child{flex:1;min-width:240px}
+.kn-enroll{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start}
+.kn-enroll .qr{background:#fff;border-radius:12px;padding:8px;width:200px}.kn-enroll .qr svg{display:block;width:100%;height:auto}
+.kn-enroll ol{padding-left:18px;margin:10px 0 14px;font-size:15px}.kn-enroll li{margin:4px 0}
+.kn-enroll code.key{font:600 14px var(--mono);color:var(--hl);background:var(--bg);padding:2px 8px;border-radius:6px;word-break:break-all}
+@media(max-width:640px){.kn-enroll{grid-template-columns:1fr}.kn-pw{width:100%}}

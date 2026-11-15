@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="assets/pasopati-engine.js"></script>
+<script src="assets/i18n.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0F2C">
+<title>Ruang Kerja · PASOPATI</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+body.rg{font-size:15px;line-height:1.5}
+.rh{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 22px;background:rgba(10,15,44,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.rh .brand{font-size:18px}.rh .brand img{width:30px;height:30px}
+.idc{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 6px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+.em{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;font:700 12px var(--mono);background:var(--indigo);border:1px solid var(--violet);color:var(--hl)}
+.em.red{border-color:var(--warn);color:var(--warn);background:#2a1530}
+.idc b{font:700 14px var(--head)}.idc small{display:block;font:11px var(--mono);color:var(--soft);letter-spacing:.04em}
+.rh .sp{flex:1}
+.badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tb{font:600 12px var(--mono);padding:8px 12px;border:1px solid var(--line);border-radius:10px;color:var(--soft);background:none;cursor:pointer;text-decoration:none;min-height:36px;display:inline-flex;align-items:center}
+.tb:hover{color:var(--text);border-color:var(--accent)}.tb.warn{color:var(--warn);border-color:var(--bad-line)}
+.ntk{margin:14px 22px 0;padding:10px 14px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;background:var(--bg2);font-size:14px;color:var(--soft)}
+.ntk b{color:var(--text)}.ntk.red{border-left-color:var(--warn)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;padding:16px 22px 40px}
+.pn{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
+.pn h2{font:700 17px var(--head);margin:0 0 4px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.pn .sub{font-size:13px;color:var(--soft);margin:0 0 12px}
+.pn.span2{grid-column:1/-1}
+.f{display:grid;gap:8px}.f label{font:600 11px var(--mono);letter-spacing:.08em;color:#A78BFA;text-transform:uppercase;margin-top:4px}
+.f input,.f select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--text);font:15px var(--body);min-height:42px}
+.f input:focus,.f select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn.sm{min-height:40px;padding:9px 14px;font-size:14px}
+.fb{font:12px var(--mono);margin-top:6px;min-height:16px}
+.it{border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-top:10px;background:var(--bg2)}
+.it.bad{border-color:var(--bad-line)}
+.it .hd{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.it .hd b{font-weight:600}
+.meta{font:12px var(--mono);color:var(--soft);margin-top:3px;overflow-wrap:anywhere}
+.ok{color:var(--ok)}.bad{color:var(--warn)}.dim{color:var(--dim)}
+.pill.wait{background:transparent;color:var(--soft);border:1px solid var(--line)}
+ul.ck{list-style:none;margin:8px 0 0;padding:0;font-size:13px}ul.ck li{padding:2px 0}ul.ck li.x{color:var(--warn)}ul.ck li.y{color:var(--ok)}ul.ck li .dim{color:var(--soft)}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.empty{font:13px var(--mono);color:var(--dim);padding:10px 0}
+.ctx{font:11px/1.45 var(--mono);color:var(--hl);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;margin-top:6px;word-break:break-all;max-height:3.1em;overflow:hidden}
+.pk{cursor:pointer}.pk:hover{border-color:var(--accent)}.pk.sel{border-color:var(--warn);box-shadow:0 0 0 3px rgba(251,113,133,.15)}
+.atk{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.atk button{all:unset;cursor:pointer;box-sizing:border-box;border:1px solid var(--bad-line);background:var(--bad-bg);color:var(--warn);border-radius:10px;padding:10px 12px;font:600 14px var(--body);min-height:42px}
+.atk button:hover{filter:brightness(1.2)}.atk button:disabled{opacity:.4;cursor:not-allowed}
+.atk button:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+table.t{width:100%;border-collapse:collapse;font-size:13px}table.t th,table.t td{text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t th{font:600 11px var(--mono);letter-spacing:.06em;color:var(--soft);text-transform:uppercase}
+table.t tr.broken td{background:rgba(251,113,133,.08)}
+.tw{overflow:auto;max-height:420px}
+.lock{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(5,8,28,.9);backdrop-filter:blur(6px)}
+.lock[hidden]{display:none}
+.lock .card{max-width:380px;text-align:center}
+.lock input{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--text);font:600 20px var(--mono);letter-spacing:.4em;text-align:center;width:160px;margin:14px 0}
+.flash{animation:fl 1s ease-out}@keyframes fl{from{box-shadow:0 0 0 3px rgba(34,211,238,.55)}to{box-shadow:0 0 0 0 rgba(34,211,238,0)}}
+body.emb .rh{padding:8px 12px}body.emb .rh .brand,body.emb .rh .hide-emb,body.emb .lang-sw{display:none!important}
+body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.emb .ntk{margin:10px 12px 0}
+@media(max-width:560px){.grid{grid-template-columns:1fr;padding:12px}.row2,.atk{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.flash{animation:none}}
+</style>
+</head>
+<body class="rg">
+<header class="rh">
+  <a class="brand" href="index.html"><img src="assets/logo-kotak.png" alt=""><span>PASOPATI</span></a>
+  <div class="idc" id="idc"></div>
+  <span class="sp"></span>
+  <div class="badges" id="badges"></div>
+</header>
+<div id="ntk"></div>
+<main class="grid" id="app" aria-live="off"></main>
+<div class="lock" id="lock" hidden></div>
+
+<script src="assets/pasopati-jaringan.js"></script>
+<script>
+(function () {
+  const EN = window.PASOPATI_LANG === "en", L = (a, b) => EN ? b : a;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const qs = new URLSearchParams(location.search), STAGE = qs.get("panggung") === "1";
+  const page = (p) => p + ".html";
+  let me = null;
+  if (STAGE) { if (sessionStorage.getItem("pq2.panggung") !== "1") { location.replace(page("konsol")); return; } me = qs.get("akun"); document.body.classList.add("emb"); }
+  else { try { me = JSON.parse(sessionStorage.getItem("pq2.sesi") || "null").id; } catch (e) {} }
+  const A = me && PQNet.account(me);
+  if (!A) { location.replace(page("konsol")); return; }
+  document.title = me + " · PASOPATI";
+  const ROLE = A.role, time = (t) => new Date(t).toLocaleTimeString(EN ? "en-GB" : "id-ID", { hour12: false });
+
+  // ---------- teks pemeriksaan ----------
+  const CK = {
+    segel: [L("Segel AES-256-GCM utuh", "AES-256-GCM seal intact"), { tag: L("segel gagal: paket diubah di jalan, atau disegel untuk kunci lain", "seal failed: packet altered in transit, or sealed to another key"), "bukan-untuk": L("tidak bisa dibuka: bukan kunci akun ini", "can't be opened: not this account's key") }],
+    pengirim: [L("Pengirim terdaftar & aksesnya aktif", "Sender registered & access active")],
+    wewenang: [L("Sesuai rantai komando", "Follows the chain of command")],
+    paraf: [L("Paraf ML-DSA-65 asli", "Genuine ML-DSA-65 signature")],
+    tujuan: [L("Ditujukan ke akun ini", "Addressed to this account")],
+    segar: [L("Masih berlaku (maks 120 detik)", "Still valid (max 120 seconds)")],
+    ulang: [L("Bukan kiriman ulang", "Not a replay")],
+  };
+  function detail(c) {
+    const d = c.d || "";
+    if (c.k === "segel") return c.ok ? L("kunci hibrida ML-KEM + X25519 cocok", "hybrid ML-KEM + X25519 key matches") : (CK.segel[1][d] || d);
+    if (c.k === "pengirim") { if (d.startsWith("tak-dikenal:")) return L("tidak terdaftar: ", "not registered: ") + d.slice(12); if (d.startsWith("dicabut:")) return d.slice(8) + L(" sudah dicabut aksesnya", "'s access has been revoked"); return d; }
+    if (c.k === "wewenang") return d.replace(">", " → ");
+    if (c.k === "paraf") return c.ok ? L("isi utuh dan benar dari pengirim", "content intact, genuinely from sender") : L("paraf palsu atau isi diubah", "forged signature or altered content");
+    if (c.k === "tujuan") return L("tujuan ", "recipient ") + d;
+    if (c.k === "segar") return L("umur ", "age ") + d + L(" detik", " s");
+    if (c.k === "ulang") return c.ok ? L("nonce baru, nomor urut naik", "new nonce, sequence increasing") : d === "nonce" ? L("nonce sudah pernah dipakai", "nonce already used") : L("nomor urut mundur", "sequence went backwards");
+    return d;
+  }
+  const failText = (k) => k ? (CK[k] ? CK[k][0] : k) : "";
+  const ckList = (checks) => `<ul class="ck">${checks.map((c) => `<li class="${c.ok ? "y" : "x"}">${c.ok ? "✔" : "✘"} ${esc(CK[c.k] ? CK[c.k][0] : c.k)} <span class="dim">— ${esc(detail(c))}</span></li>`).join("")}</ul>`;
+  const PRIO = { Normal: L("Normal", "Normal"), Segera: L("Segera", "Urgent"), Kilat: L("Kilat", "Flash") };
+  const ACT = { LOGIN: L("masuk", "signed in"), LOGOUT: L("keluar", "signed out"), KIRIM: L("mengirim perintah", "sent an order"), TERIMA: L("menerima paket sah", "accepted a valid packet"),
+    TOLAK: L("menolak paket", "rejected a packet"), BALAS: L("membalas perintah", "replied to an order"), LAPOR_LOGISTIK: L("mencatat logistik", "recorded logistics"),
+    CABUT: L("mencabut akses", "revoked access"), PULIHKAN: L("memulihkan akses", "restored access"), AUDIT: L("menjalankan audit", "ran an audit"), KUNCI_TERBIT: L("menerbitkan kunci (PKI)", "issued keys (PKI)"), RESET: L("mereset demo", "reset the demo"), LOGIN_GAGAL: L("percobaan login gagal", "failed sign-in attempt") };
+
+  // ---------- header ----------
+  $("idc").innerHTML = `<span class="em ${ROLE === "PENYUSUP" ? "red" : ""}">${A.em}</span><span><b>${me}</b><small>${esc(A.label[EN ? 1 : 0])}</small></span>`;
+  $("badges").innerHTML = (STAGE ? "" : `<span class="tb hide-emb" id="idle" title="${L("Sesi terkunci otomatis bila tidak aktif", "Session locks automatically when idle")}">⏱ 5:00</span>`) +
+    (ROLE === "KOMANDO" ? `<button class="tb warn" id="reset">↺ ${L("Reset demo", "Reset demo")}</button>` : "") +
+    (STAGE ? "" : `<a class="tb" href="${page("konsol")}" id="out">⎋ ${L("Keluar", "Sign out")}</a>`);
+  const NTK = {
+    KOMANDO: L("<b>Pusat Komando</b> melihat semua perintah, balasan, laporan penolakan, dan mengatur hak akses. Tidak bisa mengubah register logistik.", "<b>Command Center</b> sees every order, reply, and rejection report, and manages access rights. It cannot edit the logistics register."),
+    SATUAN: L(`<b>Perlu tahu:</b> kamu hanya melihat perintah untuk <b>${me}</b>. Perintah untuk satuan lain disegel dengan kunci yang tidak kamu miliki.`, `<b>Need to know:</b> you only see orders for <b>${me}</b>. Orders for other units are sealed with keys you don't hold.`),
+    AUDITOR: L("<b>Hanya baca:</b> Auditor memeriksa register logistik dan jejak audit, tetapi tidak bisa mengirim perintah atau mengubah data.", "<b>Read-only:</b> the Auditor checks the logistics register and audit trail, but cannot send orders or change data."),
+    PENYUSUP: L("<b>Kamu penyusup.</b> Kamu tidak terdaftar di PKI resmi. Kamu bisa melihat dan menyuntik paket di jaringan, tetapi isinya hanya kode acak.", "<b>You are the intruder.</b> You are not in the official PKI. You can see and inject packets on the network, but their contents are just random data."),
+  };
+  $("ntk").innerHTML = `<div class="ntk ${ROLE === "PENYUSUP" ? "red" : ""}">${NTK[ROLE]}</div>`;
+
+  // ---------- panel per peran ----------
+  const app = $("app");
+  const P = (id, title, sub, body, cls = "") => `<section class="pn ${cls}" id="${id}"><h2>${title}</h2>${sub ? `<p class="sub">${sub}</p>` : ""}${body}</section>`;
+  if (ROLE === "KOMANDO") {
+    app.innerHTML =
+      P("p-send", L("Kirim perintah", "Send an order"), L("Diparaf ML-DSA-65 dan disegel kunci hibrida khusus satuan tujuan.", "Signed with ML-DSA-65 and sealed with a hybrid key unique to the recipient."),
+        `<form class="f" id="fs"><label for="to">${L("Tujuan", "Recipient")}</label><select id="to"></select>
+         <label for="op">${L("Perintah", "Order")}</label><input id="op" value="${L("Patroli Sektor 7", "Patrol Sector 7")}" required>
+         <div class="row2"><div class="f"><label for="tg">${L("Sasaran / lokasi", "Target / location")}</label><input id="tg" value="grid 4521"></div>
+         <div class="f"><label for="pr">${L("Prioritas", "Priority")}</label><select id="pr"><option value="Normal">${PRIO.Normal}</option><option value="Segera" selected>${PRIO.Segera}</option><option value="Kilat">${PRIO.Kilat}</option></select></div></div>
+         <button class="btn btn-gold sm">${L("Paraf & kirim →", "Sign & send →")}</button><div class="fb" id="sfb" role="status" aria-live="polite"></div></form>`) +
+      P("p-sent", L("Status kiriman", "Sent orders"), L("Diterima, ditolak, atau masih menunggu satuan memeriksa.", "Accepted, rejected, or waiting for the unit to check."), `<div id="sent"></div>`) +
+      P("p-alert", L("Laporan keamanan", "Security reports"), L("Paket yang ditolak satuan mana pun, beserta alasannya.", "Packets rejected by any unit, with the reason."), `<div id="alert"></div>`) +
+      P("p-acc", L("Manajemen akses", "Access management"), L("Contoh: perangkat satuan jatuh ke tangan lawan → cabut aksesnya.", "Example: a unit's device falls into enemy hands → revoke its access."), `<div class="tw"><table class="t"><thead><tr><th>${L("Akun", "Account")}</th><th>${L("Sidik jari ML-DSA", "ML-DSA fingerprint")}</th><th>${L("Status", "Status")}</th><th></th></tr></thead><tbody id="acc"></tbody></table></div>`) +
+      P("p-log", L("Register logistik", "Logistics register"), L("Hanya baca. Pusat Komando tidak bisa mengubah catatan satuan.", "Read-only. Command Center cannot edit unit records."), `<div class="tw"><table class="t"><thead><tr><th>#</th><th>${L("Pencatat", "Recorded by")}</th><th>${L("Barang", "Item")}</th><th>${L("Jumlah", "Qty")}</th></tr></thead><tbody id="reg"></tbody></table></div>`) +
+      auditPanel();
+  } else if (ROLE === "SATUAN") {
+    app.innerHTML =
+      P("p-in", L("Kotak masuk perintah", "Order inbox"), L("Hanya perintah yang lolos 7 pemeriksaan yang tampil sebagai perintah.", "Only orders that pass all 7 checks are shown as orders."), `<div id="in"></div>`) +
+      P("p-rej", L("Paket ditolak", "Rejected packets"), L("Tidak pernah dijalankan. Otomatis dilaporkan ke Pusat Komando.", "Never executed. Automatically reported to Command Center."), `<div id="rej"></div>`) +
+      P("p-lg", L("Catat logistik satuan", "Record unit logistics"), L("Catatan diparaf dengan kunci satuan dan disambung ke rantai register.", "Records are signed with the unit's key and chained into the register."),
+        `<form class="f" id="fl"><label for="li">${L("Barang", "Item")}</label><input id="li" value="${L("Munisi 7.62 mm (peti)", "7.62 mm ammunition (crates)")}" required>
+         <div class="row2"><div class="f"><label for="lq">${L("Jumlah", "Quantity")}</label><input id="lq" type="number" min="0" value="40" required></div>
+         <div class="f"><label for="ln">${L("Keterangan", "Note")}</label><input id="ln" value="${L("Diterima dari Gudang Pusat", "Received from Central Warehouse")}"></div></div>
+         <button class="btn btn-gold sm">${L("Paraf & catat", "Sign & record")}</button><div class="fb" id="lfb" role="status" aria-live="polite"></div></form>`);
+  } else if (ROLE === "PENYUSUP") {
+    app.innerHTML =
+      P("p-net", L("Paket yang lewat di jaringan", "Packets crossing the network"), L("Pilih satu paket, lalu serang. Kamu hanya melihat alamat dan kode acak.", "Pick a packet, then attack. You only see addresses and random data."), `<div id="net"></div>`, "") +
+      P("p-atk", L("Serang paket terpilih", "Attack the selected packet"), `<span id="selinfo">${L("Belum ada paket dipilih.", "No packet selected.")}</span>`,
+        `<div class="atk">
+          <button data-k="read" disabled>🔓 ${L("Coba baca isinya", "Try to read it")}</button>
+          <button data-k="replay" disabled>↻ ${L("Kirim ulang", "Replay")}</button>
+          <button data-k="tamper" disabled>✎ ${L("Ubah 1 bit", "Flip 1 bit")}</button>
+          <button data-k="delay" disabled>⧗ ${L("Tahan 1 jam", "Hold 1 hour")}</button>
+          <button data-k="misroute" disabled>⇄ ${L("Belokkan ke satuan lain", "Redirect to another unit")}</button>
+          <button data-k="forge" disabled>⚑ ${L("Palsukan perintah PUSKOM", "Forge a PUSKOM order")}</button>
+         </div><div class="fb" id="afb" role="status" aria-live="polite"></div>
+         <h2 style="margin-top:18px">${L("Hasil seranganmu", "Your attack results")}</h2><div id="mine"></div>`) +
+      P("p-ins", L("Serangan orang dalam", "Insider attacks"), L("Anggap kamu berhasil masuk ke database. Bisakah kamu mengubah data tanpa ketahuan?", "Suppose you got into the database. Can you change data without being caught?"),
+        `<form class="f" id="fi"><div class="row2"><div class="f"><label for="ii">${L("Baris register", "Register row")}</label><input id="ii" type="number" min="1" value="1"></div>
+         <div class="f"><label for="iq">${L("Jumlah palsu", "Fake quantity")}</label><input id="iq" type="number" value="20"></div></div>
+         <div class="acts"><button class="btn btn-ghost sm" data-r="0">${L("Ubah jumlah", "Change quantity")}</button><button class="btn btn-ghost sm" data-r="1">${L("Ubah + hitung ulang hash", "Change + recompute hashes")}</button><button class="btn btn-ghost sm" type="button" id="erase">${L("Hapus 1 baris jejak audit", "Delete 1 audit trail row")}</button></div>
+         <div class="fb" id="ifb" role="status" aria-live="polite"></div></form>`);
+  } else if (ROLE === "AUDITOR") {
+    app.innerHTML =
+      P("p-log", L("Register logistik", "Logistics register"), L("Setiap catatan diparaf satuan dan disambung hash. Klik audit untuk memeriksa semuanya.", "Every record is signed by a unit and hash-chained. Click audit to check them all."),
+        `<button class="btn btn-gold sm" id="aud">✔ ${L("Audit register", "Audit register")}</button><div class="fb" id="afb2" role="status" aria-live="polite"></div>
+         <div class="tw"><table class="t"><thead><tr><th>#</th><th>${L("Pencatat", "Recorded by")}</th><th>${L("Barang", "Item")}</th><th>${L("Jumlah", "Qty")}</th><th>${L("Status", "Status")}</th></tr></thead><tbody id="reg"></tbody></table></div>`, "span2") +
+      auditPanel("span2");
+  }
+  function auditPanel(cls = "") {
+    return P("p-aud", L("Jejak audit", "Audit trail"), L("Setiap aksi diparaf pelakunya dan dirantai hash. Tidak ada akun yang boleh menghapusnya.", "Every action is signed by its actor and hash-chained. No account may delete it."),
+      `<button class="btn btn-ghost sm" id="vj">✔ ${L("Periksa jejak audit", "Verify audit trail")}</button><div class="fb" id="vfb" role="status" aria-live="polite"></div>
+       <div class="tw"><table class="t"><thead><tr><th>#</th><th>${L("Waktu", "Time")}</th><th>${L("Pelaku", "Actor")}</th><th>${L("Aksi", "Action")}</th></tr></thead><tbody id="jj"></tbody></table></div>`, cls);
+  }
+
+  // ---------- render data ----------
+  let selected = null, lastAudit = null, lastJejak = null;
+  const pill = (r) => !r ? `<span class="pill wait">${L("MENUNGGU", "PENDING")}</span>` : r.ok ? `<span class="pill ok">${L("DITERIMA", "ACCEPTED")}</span>` : `<span class="pill bad">${L("DITOLAK", "REJECTED")}</span>`;
+  const put = (id, html) => { const el = $(id); if (el._h === html) return false; el.innerHTML = html; el._h = html; return true; };
+  function render() {
+    const res = PQNet.results(), reg = PQNet.registry(), rev = PQNet.revoked();
+    if (ROLE === "KOMANDO") {
+      const toSel = $("to"), cur = toSel.value;
+      toSel.innerHTML = ["SATUAN-ALFA", "SATUAN-BRAVO"].map((u) => `<option value="${u}" ${rev[u] ? "disabled" : ""}>${u}${rev[u] ? L(" (dicabut)", " (revoked)") : ""}</option>`).join("");
+      if (cur && !rev[cur]) toSel.value = cur;
+      const replies = PQNet.inbox(me).filter((x) => x.ok && x.body && x.body.type === "REPLY");
+      const sent = PQNet.sent().slice().reverse();
+      const ch_sent = put("sent", sent.length ? sent.map((s) => { const r = res[s.pid], rp = replies.filter((x) => x.body.data.ref === s.ref);
+        return `<div class="it ${r && !r.ok ? "bad" : ""}"><div class="hd"><b>${esc(s.data.op)}</b>${pill(r)}</div>
+          <div class="meta">→ ${s.to} · ${esc(s.data.target || "")} · ${PRIO[s.data.prio] || esc(s.data.prio)} · ${time(s.t)} · ${s.bytes} B ${L("tersegel", "sealed")}</div>
+          ${rp.map((x) => `<div class="meta ok">↩ ${x.body.from}: “${esc(x.body.data.text)}” · ${L("paraf sah", "valid signature")}</div>`).join("")}</div>`; }).join("")
+        : `<div class="empty">// ${L("belum ada perintah terkirim", "no orders sent yet")}</div>`);
+      const pk = PQNet.packets(), alerts = Object.entries(res).filter(([, v]) => !v.ok).sort((a, b) => b[1].t - a[1].t).slice(0, 20);
+      const ch_alert = put("alert", alerts.length ? alerts.map(([pid, v]) => { const p = pk.find((x) => x.pid === pid) || {};
+        return `<div class="it bad"><div class="hd"><b>${L("Ditolak oleh", "Rejected by")} ${v.by}</b><span class="pill bad">${L("DITOLAK", "REJECTED")}</span></div>
+          <div class="meta">${L("mengaku dari", "claiming to be from")} ${esc(p.from || "?")} · ${L("gagal di", "failed at")}: <span class="bad">${esc(failText(v.fail))}</span> · ${time(v.t)}</div></div>`; }).join("")
+        : `<div class="empty">// ${L("belum ada paket ditolak", "no rejected packets yet")}</div>`);
+      const ch_acc = put("acc", PQNet.ACCOUNTS.map((a) => { const r = reg[a.id], dc = rev[a.id], live = PQNet.isActive(a.id);
+        return `<tr><td><b>${a.id}</b><div class="meta">${esc(a.label[EN ? 1 : 0])}</div></td><td class="mono" style="font-size:12px">${r ? r.fp : `<span class="bad">${L("tidak terdaftar", "not registered")}</span>`}</td>
+          <td>${dc ? `<span class="bad">⛔ ${L("dicabut", "revoked")}</span>` : r ? `<span class="ok">${L("aktif", "active")}</span>` : "–"}<div class="meta">${live ? L("● sedang online", "● online now") : L("○ offline", "○ offline")}</div></td>
+          <td>${a.id === me || !r ? "" : `<button class="tb ${dc ? "" : "warn"}" data-rv="${a.id}" data-on="${dc ? 0 : 1}">${dc ? L("Pulihkan", "Restore") : L("Cabut akses", "Revoke")}</button>`}</td></tr>`; }).join(""));
+      if (ch_acc) $("acc").querySelectorAll("[data-rv]").forEach((b) => b.onclick = async () => { await PQNet.revoke(me, b.dataset.rv, b.dataset.on === "1"); render(); });
+    }
+    if (ROLE === "KOMANDO" || ROLE === "AUDITOR") {
+      const rows = PQNet.register(), au = lastAudit ? Object.fromEntries(lastAudit.map((x) => [x.i, x])) : null;
+      const ch_reg = put("reg", rows.map((r, i) => { const a = au && au[i];
+        return `<tr class="${a && !a.ok ? "broken" : ""}"><td>${i + 1}</td><td>${r.body.signer}</td><td>${esc(r.body.item)}<div class="meta">${esc(r.body.note || "")}</div></td><td><b>${esc(r.body.qty)}</b></td>${ROLE === "AUDITOR" ? `<td>${!a ? `<span class="dim">–</span>` : a.ok ? `<span class="pill ok">${L("UTUH", "INTACT")}</span>` : `<span class="pill bad">${L("RUSAK", "BROKEN")}</span><div class="meta bad">${a.probs.map((p) => ({ hash: L("hash tidak cocok (isi diubah)", "hash mismatch (content altered)"), paraf: L("paraf satuan tidak valid", "invalid unit signature"), rantai: L("rantai putus", "chain broken") }[p])).join("<br>")}</div>`}</td>` : ""}</tr>`; }).join(""));
+      const jj = PQNet.jejak().slice(-40).reverse(), bad = lastJejak ? new Set(lastJejak.probs.map((p) => p.i)) : new Set();
+      const ch_jj = put("jj", jj.map((e) => `<tr class="${bad.has(e.i) ? "broken" : ""}"><td>${e.i}</td><td class="mono" style="font-size:12px">${time(e.t)}</td><td>${e.actor}</td><td>${ACT[e.act] || e.act}${e.act === "LOGIN" && e.detail && e.detail.mfa ? ` <span class="dim">(${L("sandi + 2FA", "password + 2FA")})</span>` : ""}${e.detail && (e.detail.to || e.detail.id) ? ` <span class="dim">→ ${esc(e.detail.to || e.detail.id)}</span>` : ""}${e.act === "TOLAK" && e.detail.alasan ? ` <span class="bad">(${esc(failText(e.detail.alasan))})</span>` : ""}</td></tr>`).join(""));
+    }
+    if (ROLE === "SATUAN") {
+      const box = PQNet.inbox(me).slice().reverse(), rp = PQNet.replied(me);
+      const ok = box.filter((x) => x.ok && x.body.type === "ORDER"), bad = box.filter((x) => !x.ok);
+      const ch_in = put("in", ok.length ? ok.map((x) => { const b = x.body, done = rp[b.nonce];
+        return `<div class="it" data-pid="${x.pid}"><div class="hd"><b>${esc(b.data.op)}${b.data.target ? " — " + esc(b.data.target) : ""}</b><span class="pill ok">${L("SAH", "VALID")}</span></div>
+          <div class="meta">${L("dari", "from")} ${b.from} · ${PRIO[b.data.prio] || esc(b.data.prio)} · ${L("no. urut", "seq.")} #${b.seq} · ${time(x.t)}</div>${ckList(x.checks)}
+          <div class="acts">${done ? `<span class="meta ok">↩ ${L("dibalas", "replied")}: “${esc(done)}”</span>` : `<button class="btn btn-gold sm" data-rp="${b.nonce}" data-tx="${L("Siap, laksanakan.", "Roger, executing.")}">${L("Siap, laksanakan", "Roger, executing")}</button><button class="btn btn-ghost sm" data-rp="${b.nonce}" data-tx="${L("Mohon petunjuk.", "Requesting guidance.")}">${L("Mohon petunjuk", "Request guidance")}</button>`}</div></div>`; }).join("")
+        : `<div class="empty">// ${L("belum ada perintah untuk", "no orders yet for")} ${me}</div>`);
+      const ch_rej = put("rej", bad.length ? bad.map((x) => `<div class="it bad"><div class="hd"><b>${L("Paket mengaku dari", "Packet claiming to be from")} ${esc(x.claimed)}</b><span class="pill bad">${L("DITOLAK", "REJECTED")}</span></div><div class="meta">${time(x.t)} · ${L("tidak dijalankan", "not executed")}</div>${ckList(x.checks)}</div>`).join("")
+        : `<div class="empty">// ${L("belum ada paket ditolak", "no rejected packets yet")}</div>`);
+      if (ch_in) $("in").querySelectorAll("[data-rp]").forEach((b) => b.onclick = async () => { b.disabled = true; await PQNet.sendReply(me, b.dataset.rp, b.dataset.tx); PQNet.markReplied(me, b.dataset.rp, b.dataset.tx); render(); });
+    }
+    if (ROLE === "PENYUSUP") {
+      const pk = PQNet.packets().slice().reverse();
+      const ch_net = put("net", pk.length ? pk.slice(0, 25).map((p) => { const r = res[p.pid];
+        return `<div class="it pk ${selected === p.pid ? "sel" : ""}" data-pid="${p.pid}" tabindex="0" role="button" aria-pressed="${selected === p.pid}"><div class="hd"><b class="mono" style="font-size:13px">#${p.pid} · ${p.from} → ${p.to}</b>${pill(r)}</div>
+          <div class="meta">${p.bytes} B · ${time(p.t)}${p.inj ? ` · <span class="bad">${L("suntikanmu", "your injection")}: ${esc(p.inj.kind)}</span>` : ""}</div><div class="ctx">${esc(p.ct.slice(0, 160))}…</div></div>`; }).join("")
+        : `<div class="empty">// ${L("jaringan masih sepi. Tunggu Komandan mengirim perintah.", "the network is quiet. Wait for the Commander to send an order.")}</div>`);
+      if (ch_net) $("net").querySelectorAll(".pk").forEach((el) => { const pickIt = () => { selected = el.dataset.pid; render(); };
+        el.onclick = pickIt; el.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickIt(); } }; });
+      const sp = pk.find((p) => p.pid === selected);
+      $("selinfo").textContent = sp ? `#${sp.pid} · ${sp.from} → ${sp.to}` : L("Belum ada paket dipilih.", "No packet selected.");
+      document.querySelectorAll(".atk button").forEach((b) => b.disabled = !sp);
+      const mine = pk.filter((p) => p.inj).slice(0, 12), KN = { replay: L("Kirim ulang", "Replay"), tamper: L("Ubah 1 bit", "Flip 1 bit"), delay: L("Tahan 1 jam", "Hold 1 hour"), misroute: L("Belokkan", "Redirect"), forge: L("Palsukan PUSKOM", "Forge PUSKOM") };
+      const ch_mine = put("mine", mine.length ? mine.map((p) => { const r = res[p.pid];
+        return `<div class="it ${r && !r.ok ? "bad" : ""}"><div class="hd"><b>${KN[p.inj.kind]} #${p.inj.of}</b>${pill(r)}</div><div class="meta">→ ${p.to}${r ? (r.ok ? "" : ` · ${L("gagal di", "failed at")}: ${esc(failText(r.fail))}`) : ` · ${L("menunggu", "waiting for")} ${p.to} ${L("memeriksa", "to check")}`}</div></div>`; }).join("")
+        : `<div class="empty">// ${L("belum ada serangan", "no attacks yet")}</div>`);
+    }
+  }
+
+  // ---------- aksi ----------
+  if (ROLE === "KOMANDO") {
+    $("fs").onsubmit = async (e) => { e.preventDefault(); const fb = $("sfb"); fb.className = "fb"; fb.textContent = L("memaraf & menyegel…", "signing & sealing…");
+      try { const r = await PQNet.sendOrder(me, $("to").value, { op: $("op").value.trim(), target: $("tg").value.trim(), prio: $("pr").value });
+        fb.className = "fb ok"; fb.textContent = "✔ " + L("terkirim", "sent") + ` · ${r.bytes} B ${L("tersegel", "sealed")} · ` + L("paraf 3.309 B", "signature 3,309 B"); }
+      catch (err) { fb.className = "fb bad"; fb.textContent = "✘ " + err.message; } render(); };
+  }
+  if (ROLE === "SATUAN") {
+    $("fl").onsubmit = async (e) => { e.preventDefault(); const fb = $("lfb");
+      try { await PQNet.reportLogistics(me, $("li").value.trim(), $("lq").value, $("ln").value.trim()); fb.className = "fb ok"; fb.textContent = "✔ " + L("tercatat dan diparaf", "recorded and signed"); }
+      catch (err) { fb.className = "fb bad"; fb.textContent = "✘ " + err.message; } };
+  }
+  if (ROLE === "PENYUSUP") {
+    document.querySelectorAll(".atk button").forEach((b) => b.onclick = async () => { const fb = $("afb"); if (!selected) return;
+      if (b.dataset.k === "read") { const r = PQNet.tryOpenAsIntruder(selected); fb.className = "fb bad";
+        fb.textContent = r === "gagal" ? "✘ " + L("Gagal: paket ini disegel untuk kunci ML-KEM penerima, bukan milikmu.", "Failed: this packet is sealed to the recipient's ML-KEM key, not yours.") : r; return; }
+      try { await PQNet.attack(b.dataset.k, selected); fb.className = "fb"; fb.textContent = "→ " + L("paket disuntikkan ke jaringan, menunggu penerima memeriksa…", "packet injected into the network, waiting for the recipient to check…"); }
+      catch (err) { fb.className = "fb bad"; fb.textContent = "✘ " + err.message; } render(); });
+    $("fi").onsubmit = (e) => e.preventDefault();
+    document.querySelectorAll("#fi [data-r]").forEach((b) => b.onclick = async (e) => { e.preventDefault(); const ok = await PQNet.tamperRegister(parseInt($("ii").value, 10) - 1, parseInt($("iq").value, 10), b.dataset.r === "1");
+      $("ifb").className = "fb " + (ok ? "" : "bad"); $("ifb").textContent = ok ? "→ " + L("data diubah. Sekarang minta Auditor menjalankan audit.", "data changed. Now ask the Auditor to run an audit.") : "✘ " + L("baris tidak ada", "row doesn't exist"); });
+    $("erase").onclick = async () => { const n = PQNet.jejak().length; const ok = n > 2 && await PQNet.eraseAudit(Math.floor(n / 2));
+      $("ifb").className = "fb"; $("ifb").textContent = ok ? "→ " + L("satu baris jejak dihapus. Minta Auditor memeriksa jejak audit.", "one audit row deleted. Ask the Auditor to verify the audit trail.") : "✘"; };
+  }
+  if (ROLE === "AUDITOR") {
+    $("aud").onclick = async () => { lastAudit = PQNet.auditRegister(); const bad = lastAudit.filter((x) => !x.ok).length;
+      $("afb2").className = "fb " + (bad ? "bad" : "ok"); $("afb2").textContent = bad ? `✘ ${bad} ${L("catatan terdeteksi dimanipulasi", "record(s) detected as tampered")}` : `✔ ${L("seluruh", "all")} ${lastAudit.length} ${L("catatan utuh dan asli", "records intact and authentic")}`;
+      await PQNet.appendJejak(me, "AUDIT", { id: "register" }); render(); };
+  }
+  if (ROLE === "KOMANDO" || ROLE === "AUDITOR") {
+    $("vj").onclick = async () => { lastJejak = PQNet.verifyJejak(); const n = lastJejak.probs.length, gap = lastJejak.probs.find((p) => p.k === "hilang");
+      $("vfb").className = "fb " + (n ? "bad" : "ok");
+      $("vfb").textContent = n ? `✘ ${L("jejak audit rusak", "audit trail broken")}: ${gap ? L("ada baris yang hilang sebelum #", "a row is missing before #") + gap.i : n + L(" masalah", " issue(s)")}` : `✔ ${lastJejak.n} ${L("baris utuh, paraf dan rantai cocok", "rows intact, signatures and chain match")}`;
+      render(); };
+  }
+  if (ROLE === "KOMANDO") $("reset").onclick = async () => { if (!confirm(L("Reset semua data demo dan terbitkan kunci baru?", "Reset all demo data and issue new keys?"))) return; await PQNet.resetAll(me); };
+
+  // ---------- siklus hidup ----------
+  let timer = null; const tick = () => { clearTimeout(timer); timer = setTimeout(async () => { if (["SATUAN", "KOMANDO"].includes(ROLE)) await PQNet.processInbox(me); render(); }, 120); };
+  PQNet.on((m) => { if (m.type === "reset") { location.reload(); return; } if (m.type === "akses" && m.id === me && m.on) { revokedScreen(); return; } tick(); });
+  function revokedScreen() {
+    $("lock").hidden = false; $("lock").innerHTML = `<div class="card"><div class="em red" style="margin:0 auto">⛔</div><h3 style="margin-top:12px">${L("Akses dicabut", "Access revoked")}</h3><p class="soft">${L("Pusat Komando mencabut akses akun ini. Semua pesan berparaf dari akun ini akan ditolak.", "Command Center has revoked this account's access. Every message signed by it will be rejected.")}</p>${STAGE ? "" : `<a class="btn btn-ghost" href="${page("konsol")}">${L("Kembali", "Back")}</a>`}</div>`;
+  }
+  (async () => {
+    await PQNet.ensurePKI();
+    if (PQNet.revoked()[me]) { revokedScreen(); return; }
+    if (!STAGE && ROLE !== "PENYUSUP") { const s = JSON.parse(sessionStorage.getItem("pq2.sesi")); if (!s.logged) { await PQNet.appendJejak(me, "LOGIN", { mfa: s.mfa ? 1 : 0 }); s.logged = 1; sessionStorage.setItem("pq2.sesi", JSON.stringify(s)); } }
+    if (["SATUAN", "KOMANDO"].includes(ROLE)) await PQNet.processInbox(me);
+    render();
+    PQNet.heartbeat(me); setInterval(() => PQNet.heartbeat(me), 3000); setInterval(render, 5000);
+  })();
+  // sesi berbatas waktu (tidak berlaku di mode panggung)
+  if (!STAGE) {
+    let last = Date.now(); ["pointerdown", "keydown", "scroll"].forEach((ev) => addEventListener(ev, () => last = Date.now(), { passive: true }));
+    setInterval(() => { const left = Math.max(0, PQNet.IDLE - (Date.now() - last)), m = Math.floor(left / 60000), s = Math.floor(left / 1000) % 60;
+      const el = $("idle"); if (el) el.textContent = `⏱ ${m}:${String(s).padStart(2, "0")}`;
+      if (!left && $("lock").hidden) { $("lock").hidden = false; $("lock").innerHTML = `<form class="card" id="relock"><h3>${L("Sesi terkunci", "Session locked")}</h3><p class="soft">${L("Tidak ada aktivitas selama 5 menit. Masukkan kata sandi untuk lanjut.", "No activity for 5 minutes. Enter your password to continue.")}</p><input id="rp" type="password" aria-label="${L("Kata sandi", "Password")}" style="width:240px;letter-spacing:normal;font:600 16px var(--body)"><div><button class="btn btn-gold">${L("Buka kunci", "Unlock")}</button></div><div class="fb bad" id="rpm"></div></form>`;
+        $("rp").focus(); $("relock").onsubmit = (e) => { e.preventDefault(); if (PQNet.checkPassword(me, $("rp").value)) { $("lock").hidden = true; last = Date.now(); PQNet.loginOk(me); } else { PQNet.loginFailed(me, "sandi"); $("rpm").textContent = L("Kata sandi salah", "Wrong password"); } }; }
+    }, 1000);
+    $("out").onclick = async (e) => { e.preventDefault(); if (ROLE !== "PENYUSUP") await PQNet.appendJejak(me, "LOGOUT"); sessionStorage.removeItem("pq2.sesi"); location.href = page("konsol"); };
+  }
+})();
+</script>
+</body>
+</html>

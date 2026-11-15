@@ -98,22 +98,112 @@
 <main id="main">
 
 <section class="page-hero grid-bg"><div class="wrap">
-  <div class="label">Masuk Konsol</div>
-  <h1>Pilih <span class="hl">peran</span> kamu.</h1>
-  <p class="lead">Konsol adalah tampilan kerja PASOPATI sehari-hari. Ini mode demo: tidak perlu kata sandi, dan semua data adalah simulasi.</p>
+  <div class="label">Masuk Konsol · mode demo</div>
+  <h1>Pilih <span class="hl">akun</span> kamu.</h1>
+  <p class="lead">Setiap akun punya hak akses sendiri. Buka tiap akun di tab berbeda, lalu saling kirim perintah. Semua sandi berjalan di browser, tanpa server.</p>
 </div></section>
 
-<section style="padding-top:30px"><div class="wrap">
-  <div class="roles" data-stagger>
-    <a class="card role reveal" href="konsol-komando.html"><svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg><h3>Pusat Komando</h3>
-      <ul><li>Memaraf dan mengirim perintah operasi</li><li>Mengganti kunci kanal</li><li>Mensimulasikan serangan</li></ul><span class="go">Masuk sebagai Pusat Komando →</span></a>
-    <a class="card role reveal" href="konsol-satuan.html"><svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg><h3>Satuan Lapangan</h3>
-      <ul><li>Kotak masuk perintah</li><li>Hasil 7 pemeriksaan per perintah</li><li>Bukti penolakan serangan</li></ul><span class="go">Masuk sebagai Satuan Lapangan →</span></a>
-    <a class="card role reveal" href="konsol-auditor.html"><svg class="ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="m8.5 11 2 2 3.5-3.5"/></svg><h3>Auditor Logistik</h3>
-      <ul><li>Register logistik berparaf</li><li>Audit seluruh rantai catatan</li><li>Deteksi manipulasi orang dalam</li></ul><span class="go">Masuk sebagai Auditor Logistik →</span></a>
+<section style="padding-top:20px"><div class="wrap">
+  <div class="kn-accs" id="accs" role="radiogroup" aria-label="Pilih akun"></div>
+  <form class="kn-login" id="login" autocomplete="off">
+    <div><div class="label">Masuk sebagai</div><div class="kn-who" id="who">Pilih salah satu akun di atas</div></div>
+    <label class="sr-only" for="pw">Kata sandi</label>
+    <input id="pw" class="kn-pw" type="password" placeholder="Kata sandi" autocomplete="off" disabled>
+    <button class="btn btn-gold" id="go" disabled>Lanjut →</button>
+    <div class="kn-msg" id="msg" role="status" aria-live="polite"></div>
+  </form>
+  <div class="kn-2fa card" id="tfa" hidden></div>
+  <p class="soft kn-note">Masuk butuh dua faktor: kata sandi akun dan kode 6 digit dari aplikasi autentikator (Google Authenticator, Microsoft Authenticator, dan sejenisnya). Versi lapangan memakai kartu pintar dan kunci pribadi per prajurit.</p>
+
+  <div class="kn-stage card">
+    <div><div class="label">Mode panggung</div><h3>Tiga layar sekaligus: Komandan, Jaringan, Satuan</h3>
+      <p class="soft">Untuk presentasi di satu layar. Hanya Komandan yang bisa membukanya, dengan kata sandi dan kode 2FA PUSKOM-01.</p></div>
+    <form id="stage" autocomplete="off"><label class="sr-only" for="spw">Kata sandi Komandan</label><input id="spw" class="kn-pw" type="password" placeholder="Kata sandi Komandan" autocomplete="off">
+      <label class="sr-only" for="sotp">Kode 2FA Komandan</label><input id="sotp" class="kn-otp" inputmode="numeric" maxlength="6" placeholder="Kode 2FA" autocomplete="one-time-code">
+      <button class="btn btn-ghost">Buka mode panggung →</button><div class="kn-msg" id="smsg" role="status" aria-live="polite"></div></form>
   </div>
-  <p class="soft" style="margin-top:24px">Versi lapangan memakai login dengan kartu pintar dan kunci pribadi per prajurit, bukan kata sandi.</p>
 </div></section>
+
+<section><div class="wrap">
+  <div class="sec-head"><div class="label">Tata kelola</div><h2>Siapa boleh apa</h2></div>
+  <div class="tbl-wrap"><table class="spec kn-matrix">
+    <thead><tr><th>Hak akses</th><th>PUSKOM-01</th><th>SATUAN-ALFA / BRAVO</th><th>AUDITOR-01</th><th>PENYUSUP-X</th></tr></thead>
+    <tbody>
+      <tr><td>Mengirim perintah operasi</td><td class="y">✔</td><td class="n">✘</td><td class="n">✘</td><td class="n">✘ ditolak</td></tr>
+      <tr><td>Membaca perintah</td><td class="y">✔ semua</td><td class="y">✔ hanya miliknya</td><td class="n">✘</td><td class="n">✘ hanya kode acak</td></tr>
+      <tr><td>Membalas perintah</td><td>–</td><td class="y">✔ ke PUSKOM</td><td class="n">✘</td><td class="n">✘</td></tr>
+      <tr><td>Mencatat logistik</td><td class="n">✘</td><td class="y">✔ catatannya sendiri</td><td class="n">✘</td><td class="n">✘ terdeteksi</td></tr>
+      <tr><td>Mengaudit register &amp; jejak</td><td class="y">✔</td><td class="n">✘</td><td class="y">✔ hanya baca</td><td class="n">✘</td></tr>
+      <tr><td>Mencabut / memulihkan akses</td><td class="y">✔</td><td class="n">✘</td><td class="n">✘</td><td class="n">✘</td></tr>
+      <tr><td>Menghapus jejak audit</td><td class="n">✘ tidak ada yang boleh</td><td class="n">✘</td><td class="n">✘</td><td class="n">✘ terdeteksi</td></tr>
+    </tbody></table></div>
+  <div class="g4 kn-princ">
+    <div class="card"><div class="num">01</div><h3>Hak minimum</h3><p class="soft">Setiap akun hanya mendapat tombol dan data sesuai perannya.</p></div>
+    <div class="card"><div class="num">02</div><h3>Perlu tahu</h3><p class="soft">Tiap jalur punya kunci sendiri. Data Satuan Alfa tidak bisa dibuka Satuan Bravo.</p></div>
+    <div class="card"><div class="num">03</div><h3>Pemisahan tugas</h3><p class="soft">Yang mencatat logistik, yang memberi perintah, dan yang mengaudit adalah akun berbeda.</p></div>
+    <div class="card"><div class="num">04</div><h3>Jejak audit</h3><p class="soft">Setiap aksi diparaf dan dirantai hash. Satu baris dihapus, langsung ketahuan.</p></div>
+  </div>
+  <p class="soft kn-note">Catatan purwarupa: semua akun berjalan di satu browser, jadi kunci tiap akun tersimpan di browser yang sama dan kata sandi dan 2FA hanya gerbang demo. Pemisahan data tetap nyata di level sandi. Di lapangan, tiap akun memegang kuncinya sendiri di perangkat atau kartu pintar.</p>
+</div></section>
+
+<script src="assets/pasopati-jaringan.js"></script>
+<script>
+addEventListener("DOMContentLoaded", function(){
+  const EN = window.PASOPATI_LANG === "en", L = (a, b) => EN ? b : a;
+  const accs = $("accs"), pw = $("pw"), go = $("go"), msg = $("msg"), tfa = $("tfa"); let pick = null, pending = null;
+  PQNet.ensurePKI();
+  const bad = (el, t) => { el.className = "kn-msg bad"; el.textContent = t; };
+  function draw(){
+    const rev = PQNet.revoked();
+    accs.innerHTML = PQNet.ACCOUNTS.map(a => {
+      const live = PQNet.isActive(a.id), r = rev[a.id];
+      return `<button type="button" role="radio" aria-checked="${pick===a.id}" class="kn-acc ${a.role==='PENYUSUP'?'red':''} ${pick===a.id?'sel':''} ${r?'off':''}" data-id="${a.id}">
+        <span class="st ${live?'on':''}">${r ? L('⛔ akses dicabut','⛔ access revoked') : live ? L('● aktif di tab lain','● active in another tab') : L('○ belum masuk','○ not signed in')}</span>
+        <span class="em">${a.em}</span><span class="cs">${a.id}</span><span class="rl">${esc(a.label[EN?1:0])}</span>
+        <span class="tf">${PQNet.totpEnrolled(a.id) ? L('🔐 2FA aktif','🔐 2FA on') : L('2FA belum dipasang','2FA not set up')}</span></button>`; }).join("");
+    accs.querySelectorAll(".kn-acc").forEach(b => b.onclick = () => { pick = b.dataset.id; pending = null; tfa.hidden = true; const a = PQNet.account(pick);
+      $("who").textContent = pick + " · " + a.label[EN?1:0]; pw.disabled = false; go.disabled = false; msg.textContent = ""; pw.value = ""; draw(); pw.focus(); });
+  }
+  draw(); setInterval(() => { if (!pending) draw(); }, 3000); PQNet.on(m => { if (m.type === "akses" || m.type === "reset") draw(); });
+  function enter(id){ PQNet.loginOk(id); sessionStorage.setItem("pq2.sesi", JSON.stringify({ id, t: Date.now(), mfa: 1 })); location.href = "ruang.html"; }
+  // Langkah 1: kata sandi
+  $("login").onsubmit = async e => { e.preventDefault(); if (!pick) return;
+    const wait = PQNet.lockLeft(pick); if (wait) return bad(msg, L(`Terlalu banyak percobaan. Coba lagi dalam ${wait} detik.`, `Too many attempts. Try again in ${wait} seconds.`));
+    if (PQNet.revoked()[pick]) return bad(msg, L("Akses akun ini sudah dicabut Pusat Komando.", "This account's access has been revoked by Command Center."));
+    if (!PQNet.checkPassword(pick, pw.value)) { await PQNet.loginFailed(pick, "sandi"); pw.select(); const w = PQNet.lockLeft(pick); return bad(msg, w ? L(`Kata sandi salah 3 kali. Akun dikunci ${w} detik.`, `Wrong password 3 times. Account locked for ${w} seconds.`) : L("Kata sandi salah.", "Wrong password.")); }
+    msg.className = "kn-msg ok"; msg.textContent = L("✔ Kata sandi benar. Lanjut ke faktor kedua.", "✔ Password correct. On to the second factor.");
+    pending = pick; step2(pick); };
+  // Langkah 2: 2FA (pasang dulu bila belum)
+  function step2(id){
+    tfa.hidden = false;
+    if (PQNet.totpEnrolled(id)) {
+      tfa.innerHTML = `<form id="f2" class="kn-2row" autocomplete="off"><div><div class="label">${L("Faktor kedua","Second factor")}</div><h3>${L("Masukkan kode 6 digit","Enter the 6-digit code")}</h3><p class="soft">${L("Buka aplikasi autentikator, cari","Open your authenticator app, find")} <b>PASOPATI: ${id}</b>.</p></div>
+        <input id="otp" class="kn-otp" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" aria-label="${L("Kode 2FA","2FA code")}"><button class="btn btn-gold">${L("Masuk →","Sign in →")}</button><div class="kn-msg" id="m2" role="status" aria-live="polite"></div></form>`;
+    } else {
+      const n = PQNet.totpNew(id);
+      tfa.innerHTML = `<form id="f2" class="kn-enroll" autocomplete="off"><div class="qr" aria-label="QR 2FA">${PQNet.qrSvg(n.uri)}</div>
+        <div><div class="label">${L("Pasang 2FA · sekali saja","Set up 2FA · one time")}</div><h3>${L("Pindai QR ini dengan aplikasi autentikator","Scan this QR with an authenticator app")}</h3>
+        <ol class="soft"><li>${L("Buka Google Authenticator / Microsoft Authenticator, pilih tambah akun → pindai QR.","Open Google Authenticator / Microsoft Authenticator, choose add account → scan QR.")}</li>
+        <li>${L("Tidak bisa memindai? Ketik kunci ini:","Can't scan? Type this key:")} <code class="key">${n.secret.match(/.{1,4}/g).join(" ")}</code></li>
+        <li>${L("Masukkan kode 6 digit yang muncul untuk mengaktifkan.","Enter the 6-digit code shown to activate it.")}</li></ol>
+        <div class="kn-2row"><input id="otp" class="kn-otp" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" aria-label="${L("Kode 2FA","2FA code")}"><button class="btn btn-gold">${L("Aktifkan & masuk →","Activate & sign in →")}</button></div><div class="kn-msg" id="m2" role="status" aria-live="polite"></div></div></form>`;
+      tfa.dataset.secret = n.secret;
+    }
+    $("otp").focus();
+    $("f2").onsubmit = async e => { e.preventDefault(); const code = $("otp").value, m2 = $("m2");
+      const wait = PQNet.lockLeft(id); if (wait) return bad(m2, L(`Terlalu banyak percobaan. Coba lagi dalam ${wait} detik.`, `Too many attempts. Try again in ${wait} seconds.`));
+      const ok = PQNet.totpEnrolled(id) ? PQNet.totpVerify(id, code) : PQNet.totpEnroll(id, tfa.dataset.secret, code);
+      if (!ok) { await PQNet.loginFailed(id, "2fa"); $("otp").select(); return bad(m2, L("Kode 2FA salah atau kedaluwarsa.", "Wrong or expired 2FA code.")); }
+      enter(id); };
+  }
+  $("stage").onsubmit = async e => { e.preventDefault(); const sm = $("smsg"), id = "PUSKOM-01";
+    const wait = PQNet.lockLeft(id); if (wait) return bad(sm, L(`Terlalu banyak percobaan. Coba lagi dalam ${wait} detik.`, `Too many attempts. Try again in ${wait} seconds.`));
+    if (!PQNet.checkPassword(id, $("spw").value)) { await PQNet.loginFailed(id, "sandi"); return bad(sm, L("Kata sandi Komandan salah.", "Wrong Commander password.")); }
+    if (!PQNet.totpEnrolled(id)) return bad(sm, L("2FA Komandan belum dipasang. Masuk sekali sebagai PUSKOM-01 untuk memasangnya.", "Commander 2FA isn't set up yet. Sign in once as PUSKOM-01 to set it up."));
+    if (!PQNet.totpVerify(id, $("sotp").value)) { await PQNet.loginFailed(id, "2fa"); return bad(sm, L("Kode 2FA salah atau kedaluwarsa.", "Wrong or expired 2FA code.")); }
+    PQNet.loginOk(id); sessionStorage.setItem("pq2.panggung", "1"); location.href = "panggung.html"; };
+});
+</script>
 
 </main>
 

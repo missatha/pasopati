@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="assets/pasopati-engine.js"></script>
+<script src="assets/i18n.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0F2C">
+<title>Mode Panggung · PASOPATI</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+html,body{height:100%}body{display:flex;flex-direction:column;overflow:hidden}
+header.sh{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--bg)}
+header.sh .brand{font-size:17px}header.sh .brand img{width:28px;height:28px}
+header.sh .t{font:600 12px var(--mono);letter-spacing:.12em;color:#A78BFA}
+header.sh .sp{flex:1}
+.badges{display:flex;gap:8px;align-items:center}
+.tb{font:600 12px var(--mono);padding:8px 12px;border:1px solid var(--line);border-radius:10px;color:var(--soft);background:var(--bg2);text-decoration:none;min-height:36px;display:inline-flex;align-items:center}
+.tb:hover{color:var(--text);border-color:var(--accent)}
+select.tb{cursor:pointer}
+.cols{flex:1;display:grid;grid-template-columns:1fr 1.05fr 1fr;gap:10px;padding:10px;min-height:0}
+.col{display:flex;flex-direction:column;min-height:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg)}
+.col.net{border-color:var(--bad-line);border-style:dashed}
+.col .cap{display:flex;align-items:center;justify-content:space-between;gap:8px;font:600 11px var(--mono);letter-spacing:.1em;color:var(--soft);padding:8px 12px;border-bottom:1px solid var(--line)}
+.col iframe{flex:1;width:100%;border:0;min-height:0;background:var(--bg)}
+@media(max-width:1000px){body{overflow:auto}.cols{grid-template-columns:1fr}.col{height:80vh}}
+</style>
+</head>
+<body>
+<header class="sh">
+  <a class="brand" href="index.html"><img src="assets/logo-kotak.png" alt="">PASOPATI</a>
+  <span class="t" id="tt">MODE PANGGUNG · 3 LAYAR</span>
+  <span class="sp"></span>
+  <div class="badges"><label class="sr-only" for="right">Layar kanan</label><select class="tb" id="right"><option>SATUAN-ALFA</option><option>SATUAN-BRAVO</option><option>AUDITOR-01</option></select>
+  <a class="tb" href="konsol.html" id="out">⎋ Keluar panggung</a></div>
+</header>
+<div class="cols">
+  <div class="col"><div class="cap" id="c1">PUSAT KOMANDO</div><iframe id="f1" title="PUSKOM-01"></iframe></div>
+  <div class="col net"><div class="cap" id="c2">JARINGAN · YANG DILIHAT PENYUSUP</div><iframe id="f2" title="PENYUSUP-X"></iframe></div>
+  <div class="col"><div class="cap" id="c3">PENERIMA</div><iframe id="f3" title="SATUAN-ALFA"></iframe></div>
+</div>
+<script src="assets/pasopati-jaringan.js"></script>
+<script>
+(function () {
+  if (sessionStorage.getItem("pq2.panggung") !== "1") { location.replace("konsol.html"); return; }
+  const EN = window.PASOPATI_LANG === "en", L = (a, b) => EN ? b : a, $ = (id) => document.getElementById(id);
+  $("tt").textContent = L("MODE PANGGUNG · 3 LAYAR", "STAGE MODE · 3 SCREENS");
+  $("c1").textContent = L("PUSAT KOMANDO", "COMMAND CENTER"); $("c2").textContent = L("JARINGAN · YANG DILIHAT PENYUSUP", "NETWORK · WHAT THE INTRUDER SEES"); $("c3").textContent = L("PENERIMA", "RECIPIENT");
+  $("out").textContent = "⎋ " + L("Keluar panggung", "Leave stage");
+  $("out").onclick = () => sessionStorage.removeItem("pq2.panggung");
+  const src = (a) => "ruang.html?panggung=1&akun=" + encodeURIComponent(a);
+  PQNet.ensurePKI().then(() => {
+    $("f1").src = src("PUSKOM-01"); $("f2").src = src("PENYUSUP-X"); $("f3").src = src("SATUAN-ALFA");
+    $("right").onchange = (e) => { $("f3").src = src(e.target.value); $("f3").title = e.target.value; };
+  });
+})();
+</script>
+</body>
+</html>
