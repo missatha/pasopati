@@ -18,6 +18,53 @@
 <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
+<div id="preloader" class="preloader" aria-hidden="true">
+  <div class="pl-stage">
+    <svg class="pl-logo" viewBox="0 0 120 120" width="132" height="132">
+      <defs><linearGradient id="plTrail" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#22D3EE" stop-opacity="0"/><stop offset="1" stop-color="#22D3EE" stop-opacity=".9"/></linearGradient></defs>
+      <rect x="3" y="3" width="114" height="114" rx="26" fill="#1E1B4B" stroke="#8B5CF6" stroke-width="3"/>
+      <rect class="pl-trail" x="58.5" y="-400" width="3" height="420" fill="url(#plTrail)"/>
+      <path d="M18 56 Q 24 50 32 50 Q 46 34 60 42 Q 74 34 88 50 Q 96 50 102 56" fill="none" stroke="#22D3EE" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="pl-string" d="M30 54 L60 92 L90 54" fill="none" stroke="#22D3EE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="pl-arrow"><line x1="60" y1="92" x2="60" y2="28" stroke="#22D3EE" stroke-width="4.5" stroke-linecap="round"/><path d="M60 13 L50.5 31 L69.5 31 Z" fill="#22D3EE"/></g>
+    </svg>
+    <div class="pl-name">PASOPATI</div>
+    <div class="pl-bar"><i></i></div>
+    <div class="pl-meta"><span class="pl-label">MENYIAPKAN SANDI</span><span class="pl-pct">0%</span></div>
+  </div>
+</div>
+<script>
+(function () {
+  var pl = document.getElementById("preloader"), root = document.documentElement;
+  var seen = false; try { seen = sessionStorage.getItem("pasopati-intro") === "1"; } catch (e) {}
+  if (seen || /[?&]intro=0/.test(location.search)) { pl.remove(); return; }
+  root.classList.add("pl-lock");
+  var en = (function(){ try { return (new URLSearchParams(location.search).get("lang") || localStorage.getItem("pasopati-lang")) === "en"; } catch (e) { return false; } })();
+  pl.querySelector(".pl-label").textContent = en ? "PREPARING CRYPTO" : "MENYIAPKAN SANDI";
+  var str = pl.querySelector(".pl-string"), arrow = pl.querySelector(".pl-arrow"), pct = pl.querySelector(".pl-pct"), bar = pl.querySelector(".pl-bar i");
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, MIN = reduce ? 500 : 1700, t0 = performance.now(), loaded = false, p = 0;
+  addEventListener("load", function () { loaded = true; }); setTimeout(function () { loaded = true; }, 6000);
+  function render(v) {
+    var pull = v / 100 * 15;
+    str.setAttribute("d", "M30 54 L60 " + (92 + pull).toFixed(2) + " L90 54");
+    arrow.style.transform = "translateY(" + pull.toFixed(2) + "px)";
+    pct.textContent = Math.floor(v) + "%"; bar.style.transform = "scaleX(" + (v / 100) + ")";
+  }
+  function frame(now) {
+    var el = now - t0, target = (loaded && el > MIN) ? 100 : Math.min(90, el / MIN * 90);
+    p += (target - p) * 0.14; if (target === 100 && p > 99.4) p = 100;
+    render(p); if (p < 100) requestAnimationFrame(frame); else release();
+  }
+  function release() {
+    str.setAttribute("d", "M30 54 L60 92 L90 54");
+    pl.classList.add("fire");
+    setTimeout(function () { pl.classList.add("done"); root.classList.remove("pl-lock"); }, reduce ? 150 : 520);
+    setTimeout(function () { pl.remove(); }, reduce ? 500 : 1300);
+    try { sessionStorage.setItem("pasopati-intro", "1"); } catch (e) {}
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 <a class="skip" href="#main">Lewati ke konten</a>
 
 <header class="nav"><div class="wrap">
