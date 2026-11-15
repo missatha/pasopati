@@ -57,7 +57,7 @@
   }
   var str = pl.querySelector(".pl-string"), arrow = pl.querySelector(".pl-arrow"), num = pl.querySelector(".pl-pct span"),
       bar = pl.querySelector(".pl-bar i"), st = pl.querySelector(".pl-status"), cur = -1;
-  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, MIN = reduce ? 600 : 2300, t0 = performance.now(), loaded = false, p = 0;
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, MIN = reduce ? 600 : 3200, t0 = performance.now(), loaded = false, p = 0;
   addEventListener("load", function () { loaded = true; }); setTimeout(function () { loaded = true; }, 6000);
   function say(k) { if (k !== cur) { cur = k; st.classList.remove("in"); void st.offsetWidth; st.textContent = TXT[k]; st.classList.add("in"); } }
   function render(v) {
@@ -69,14 +69,14 @@
   }
   function frame(now) {
     var el = Math.max(0, now - t0), target = (loaded && el > MIN) ? 100 : Math.min(92, el / MIN * 92);
-    p += (target - p) * 0.12; if (target === 100 && p > 99.4) p = 100;
+    p += (target - p) * 0.08; if (target === 100 && p > 99.4) p = 100;
     render(p); if (p < 100) requestAnimationFrame(frame); else release();
   }
   function release() {
     str.setAttribute("points", "34,104 43,129 88,172 133,129 142,104");
     pl.classList.add("fire");
-    setTimeout(function () { pl.classList.add("done"); root.classList.remove("pl-lock"); }, reduce ? 300 : 1150);
-    setTimeout(function () { pl.remove(); }, reduce ? 700 : 2000);
+    setTimeout(function () { pl.classList.add("done"); root.classList.remove("pl-lock"); }, reduce ? 300 : 1650);
+    setTimeout(function () { pl.remove(); }, reduce ? 700 : 2900);
     try { sessionStorage.setItem("pasopati-intro", "1"); } catch (e) {}
   }
   requestAnimationFrame(frame);
