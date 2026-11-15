@@ -119,11 +119,13 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
   const PRIO = { Normal: L("Normal", "Normal"), Segera: L("Segera", "Urgent"), Kilat: L("Kilat", "Flash") };
   const ACT = { LOGIN: L("masuk", "signed in"), LOGOUT: L("keluar", "signed out"), KIRIM: L("mengirim perintah", "sent an order"), TERIMA: L("menerima paket sah", "accepted a valid packet"),
     TOLAK: L("menolak paket", "rejected a packet"), BALAS: L("membalas perintah", "replied to an order"), LAPOR_LOGISTIK: L("mencatat logistik", "recorded logistics"),
-    CABUT: L("mencabut akses", "revoked access"), PULIHKAN: L("memulihkan akses", "restored access"), AUDIT: L("menjalankan audit", "ran an audit"), KUNCI_TERBIT: L("menerbitkan kunci (PKI)", "issued keys (PKI)"), RESET: L("mereset demo", "reset the demo"), LOGIN_GAGAL: L("percobaan login gagal", "failed sign-in attempt") };
+    CABUT: L("mencabut akses", "revoked access"), PULIHKAN: L("memulihkan akses", "restored access"), AUDIT: L("menjalankan audit", "ran an audit"), KUNCI_TERBIT: L("menerbitkan kunci (PKI)", "issued keys (PKI)"), RESET: L("mereset demo", "reset the demo"), MFA_ON: L("mengaktifkan 2FA", "turned on 2FA"), MFA_OFF: L("menonaktifkan 2FA", "turned off 2FA"), LOGIN_GAGAL: L("percobaan login gagal", "failed sign-in attempt") };
 
   // ---------- header ----------
   $("idc").innerHTML = `<span class="em ${ROLE === "PENYUSUP" ? "red" : ""}">${A.em}</span><span><b>${me}</b><small>${esc(A.label[EN ? 1 : 0])}</small></span>`;
   $("badges").innerHTML = (STAGE ? "" : `<span class="tb hide-emb" id="idle" title="${L("Sesi terkunci otomatis bila tidak aktif", "Session locks automatically when idle")}">⏱ 5:00</span>`) +
+    (ROLE === "KOMANDO" && !STAGE ? `<button class="tb" id="stage">▣ ${L("Mode panggung", "Stage mode")}</button>` : "") +
+    (STAGE ? "" : `<button class="tb" id="mfa">🔐 2FA</button>`) +
     (ROLE === "KOMANDO" ? `<button class="tb warn" id="reset">↺ ${L("Reset demo", "Reset demo")}</button>` : "") +
     (STAGE ? "" : `<a class="tb" href="${page("konsol")}" id="out">⎋ ${L("Keluar", "Sign out")}</a>`);
   const NTK = {
@@ -291,6 +293,33 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
       render(); };
   }
   if (ROLE === "KOMANDO") $("reset").onclick = async () => { if (!confirm(L("Reset semua data demo dan terbitkan kunci baru?", "Reset all demo data and issue new keys?"))) return; await PQNet.resetAll(me); };
+
+  // ---------- 2FA opsional & mode panggung ----------
+  const lock = $("lock");
+  function closeModal() { lock.hidden = true; lock.innerHTML = ""; }
+  function mfaModal() {
+    lock.hidden = false;
+    const on = PQNet.totpEnrolled(me);
+    if (on) {
+      lock.innerHTML = `<form class="card" id="mf" style="max-width:420px"><h3>🔐 ${L("2FA aktif", "2FA is on")}</h3><p class="soft">${L("Login akun ini butuh kata sandi + kode 6 digit dari aplikasi autentikator. Untuk menonaktifkan, masukkan kode saat ini.", "Signing in to this account needs the password + a 6-digit code from the authenticator app. To turn it off, enter the current code.")}</p>
+        <input id="mc" inputmode="numeric" maxlength="6" placeholder="000000" aria-label="${L("Kode 2FA", "2FA code")}"><div class="acts" style="justify-content:center"><button class="btn btn-ghost sm" type="button" id="mx">${L("Tutup", "Close")}</button><button class="btn btn-gold sm">${L("Nonaktifkan 2FA", "Turn off 2FA")}</button></div><div class="fb bad" id="mm"></div></form>`;
+      $("mf").onsubmit = async (e) => { e.preventDefault(); if (!PQNet.totpVerify(me, $("mc").value)) { $("mm").textContent = L("Kode salah atau kedaluwarsa.", "Wrong or expired code."); return; }
+        PQNet.totpRemove(me); await PQNet.appendJejak(me, "MFA_OFF"); closeModal(); };
+    } else {
+      const n = PQNet.totpNew(me);
+      lock.innerHTML = `<form class="card" id="mf" style="max-width:640px;text-align:left"><h3>🔐 ${L("Aktifkan 2FA (opsional)", "Turn on 2FA (optional)")}</h3>
+        <div style="display:grid;grid-template-columns:180px 1fr;gap:18px;margin-top:12px;align-items:start"><div style="background:#fff;border-radius:10px;padding:6px">${PQNet.qrSvg(n.uri)}</div>
+        <div><ol class="soft" style="padding-left:18px;margin:0 0 12px"><li>${L("Pindai QR dengan Google Authenticator / Microsoft Authenticator.", "Scan the QR with Google Authenticator / Microsoft Authenticator.")}</li>
+        <li>${L("Atau ketik kunci:", "Or type the key:")} <code style="font:600 13px var(--mono);color:var(--hl);word-break:break-all">${n.secret.match(/.{1,4}/g).join(" ")}</code></li><li>${L("Masukkan kode 6 digit yang muncul.", "Enter the 6-digit code shown.")}</li></ol>
+        <input id="mc" inputmode="numeric" maxlength="6" placeholder="000000" aria-label="${L("Kode 2FA", "2FA code")}" style="margin:0 0 10px">
+        <div class="acts"><button class="btn btn-ghost sm" type="button" id="mx">${L("Nanti saja", "Not now")}</button><button class="btn btn-gold sm">${L("Aktifkan", "Turn on")}</button></div><div class="fb bad" id="mm"></div></div></div></form>`;
+      $("mf").onsubmit = async (e) => { e.preventDefault(); if (!PQNet.totpEnroll(me, n.secret, $("mc").value)) { $("mm").textContent = L("Kode salah atau kedaluwarsa.", "Wrong or expired code."); return; }
+        await PQNet.appendJejak(me, "MFA_ON"); closeModal(); };
+    }
+    $("mx").onclick = closeModal; $("mc").focus();
+  }
+  if ($("mfa")) $("mfa").onclick = mfaModal;
+  if ($("stage")) $("stage").onclick = () => { sessionStorage.setItem("pq2.panggung", "1"); location.href = page("panggung"); };
 
   // ---------- siklus hidup ----------
   let timer = null; const tick = () => { clearTimeout(timer); timer = setTimeout(async () => { if (["SATUAN", "KOMANDO"].includes(ROLE)) await PQNet.processInbox(me); render(); }, 120); };
