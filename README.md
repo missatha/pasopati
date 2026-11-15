@@ -5,6 +5,15 @@
 Purwarupa Kartika Cyber Hackathon 2026, kategori Penangkalan. Perintah operasi dan logistik militer yang **tak bisa ditiru** dan **tahan komputer kuantum**.
 
 🔗 **Coba langsung:** https://missatha.github.io/pasopati/
+🎬 **Video demo:** [YouTube](LINK_YOUTUBE) — *PASOPATI 🏹 – Tim Cyberbaddies | Demo Post-Quantum Cryptography untuk Kartika Cyber Hackathon 2026*
+
+## Tim Cyberbaddies
+
+| Nama | Peran | Keahlian |
+|---|---|---|
+| **Mega Rosita, S.Tr.Kom.** | Project Lead · System Logic | Pengujian produk keamanan TI, evaluasi Common Criteria (ISO/IEC 15408), manajemen mutu (ISO/IEC 17025) |
+| **Dr. Esti Rahmawati Agustina, S.ST., M.M.T.** | Cryptography | Kriptografi, standardisasi keamanan informasi, pengujian dan sertifikasi perangkat TI |
+| **Wanodya Estithama, S.Tr.Kom.** ([@missatha](https://github.com/missatha)) | UI/UX | Manajemen risiko siber sektoral, tata kelola keamanan siber, ketahanan infrastruktur informasi vital |
 
 Semua sandi berjalan **langsung di browser**, tanpa server:
 
@@ -26,17 +35,7 @@ Semua sandi berjalan **langsung di browser**, tanpa server:
 | **Teknologi** | Alur perintah, algoritma, pengukuran kecepatan di perangkatmu |
 | **Peta Jalan** | 4 langkah menyambut PQC, perangkat yang didukung, keselarasan BSSN/CNSA/NATO |
 | **Modul** | Unduh modul Python `pasopati` (purwarupa) |
-| **Masuk Konsol** | Login akun siap pakai (PUSKOM, Satuan Alfa/Bravo, Penyusup, Auditor). Tiap akun di tab berbeda saling kirim perintah lewat jaringan demo; ada mode panggung 3 layar, matriks hak akses, jejak audit, dan cabut akses |
-
-## Cara memasang di GitHub Pages
-
-1. Buat repo baru bernama `pasopati` (Public) di github.com/new.
-2. Klik **uploading an existing file**, seret **semua isi folder ini** (termasuk folder `assets`, `unduh`, `sumber-mesin`, dan file `.nojekyll`), lalu **Commit changes**.
-3. Buka **Settings → Pages**. Di **Build and deployment**, pilih **Source: Deploy from a branch**, **Branch: main**, folder **/ (root)**, lalu **Save**.
-4. Tunggu 1–2 menit. Situs muncul di `https://<username>.github.io/pasopati/`.
-5. Di halaman repo, klik ⚙️ pada **About** dan isi **Website** dengan link tersebut.
-
-Situs juga bisa dibuka tanpa internet: klik dua kali `index.html`. Font dan animasi Motion butuh internet; tanpanya situs tetap berfungsi dengan tampilan cadangan.
+| **Masuk Konsol** | Login akun siap pakai (PUSKOM, Satuan Alfa/Bravo, Penyusup, Auditor). Tiap akun di tab berbeda saling kirim perintah lewat jaringan demo, lengkap dengan matriks hak akses, 2FA opsional, jejak audit, dan cabut akses |
 
 ## Struktur
 
@@ -60,6 +59,6 @@ Membangun ulang mesin: `cd sumber-mesin && npm install && npm run build`
 
 ## Akun demo Konsol
 
-Akun siap pakai: PUSKOM-01, SATUAN-ALFA, SATUAN-BRAVO, PENYUSUP-X, AUDITOR-01. PIN dibagikan tim saat presentasi.
+Akun siap pakai: PUSKOM-01, SATUAN-ALFA, SATUAN-BRAVO, PENYUSUP-X, AUDITOR-01. Password dibagikan tim kepada juri (lihat Buku Panduan Demo).
 
-Catatan: situs ini statis (tanpa server), jadi PIN hanya gerbang demo dan semua akun berjalan di satu browser. Pemisahan data tetap dipaksakan oleh sandi: tiap pesan disegel dengan kunci ML-KEM + X25519 milik penerimanya.
+Catatan: situs ini statis (tanpa server), jadi password hanya gerbang demo dan semua akun berjalan di satu browser. Pemisahan data tetap dipaksakan oleh sandi: tiap pesan disegel dengan kunci ML-KEM + X25519 milik penerimanya.
