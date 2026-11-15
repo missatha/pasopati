@@ -337,23 +337,34 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap} footer nav a{text-decoration:no
 }
 @media(max-width:700px){.worldmap .ptag.c{left:auto!important;right:8px;top:auto!important;bottom:8px}}
 
-/* ---------- preloader: panah PASOPATI ditarik lalu dilesatkan ---------- */
+/* ---------- preloader: opening PASOPATI (busur ditarik, panah dilesatkan) ---------- */
 .preloader{display:none}
-html.js .preloader{display:flex;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;background:radial-gradient(60% 50% at 50% 45%,#1E1B4B 0%,#0A0F2C 70%);visibility:visible;transition:transform .75s cubic-bezier(.7,0,.2,1),opacity .75s}
+html.js .preloader{display:flex;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;overflow:hidden;visibility:visible;
+  background:radial-gradient(55% 42% at 50% 40%,rgba(139,92,246,.22),transparent 70%),linear-gradient(160deg,#0A0F2C,#0D1238 60%,#0A0F2C);
+  transition:transform .8s cubic-bezier(.7,0,.2,1)}
+html.js .preloader::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(34,211,238,.04) 0 1px,transparent 1px 22px);pointer-events:none}
 html.pl-lock,html.pl-lock body{overflow:hidden}
-.pl-stage{display:flex;flex-direction:column;align-items:center;gap:18px;width:min(280px,72vw)}
-.pl-logo{overflow:visible;filter:drop-shadow(0 0 28px rgba(139,92,246,.45))}
-.pl-arrow{transition:none}
-.pl-trail{transform-box:view-box;transform-origin:60px 20px;transform:scaleY(0);opacity:0}
-.pl-name{font:600 20px/1 'Space Grotesk',system-ui,sans-serif;letter-spacing:.32em;color:#E0F2FE;margin-left:.32em}
-.pl-bar{width:100%;height:3px;border-radius:3px;background:#2A2F63;overflow:hidden}
+.pl-bits{position:absolute;inset:0;pointer-events:none}
+.pl-bits span{position:absolute;font:12px 'JetBrains Mono',ui-monospace,monospace;color:#22D3EE;opacity:0;animation:plBit 6s linear infinite}
+@keyframes plBit{0%{opacity:0;transform:translateY(16px)}20%{opacity:.45}80%{opacity:.25}100%{opacity:0;transform:translateY(-40px)}}
+.pl-stage{position:relative;display:flex;flex-direction:column;align-items:center;width:min(300px,80vw)}
+.pl-bow{overflow:visible;max-width:56vw;height:auto}
+.pl-glow2{opacity:0;transition:opacity .4s}
+.pl-trail{transform-box:view-box;transform-origin:88px 172px;transform:scaleY(0);opacity:0}
+.pl-pct{font:700 clamp(58px,9vw,80px)/1 'Space Grotesk',system-ui,sans-serif;color:#E0F2FE;letter-spacing:-.03em;margin-top:6px;font-variant-numeric:tabular-nums}
+.pl-pct b{color:#22D3EE;font-weight:700}
+.pl-status{font:500 14px/1.4 'JetBrains Mono',ui-monospace,monospace;color:#A9BCD8;margin-top:12px;min-height:20px;text-align:center}
+.pl-status.in{animation:plIn .35s ease-out}
+@keyframes plIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pl-bar{width:240px;max-width:100%;height:3px;border-radius:3px;background:#2A2F63;overflow:hidden;margin-top:22px}
 .pl-bar i{display:block;height:100%;background:linear-gradient(90deg,#8B5CF6,#22D3EE);transform:scaleX(0);transform-origin:left}
-.pl-meta{width:100%;display:flex;justify-content:space-between;font:600 12px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.12em;color:#A9BCD8}
-.pl-pct{color:#22D3EE;font-variant-numeric:tabular-nums}
-.preloader.fire .pl-arrow{transition:transform .5s cubic-bezier(.5,0,.75,0);transform:translateY(-110vh)!important}
-.preloader.fire .pl-trail{animation:plTrail .75s ease-out forwards}
-@keyframes plTrail{0%{transform:scaleY(0);opacity:1}40%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
-.preloader.fire .pl-string{animation:plTwang .35s ease-out}
-@keyframes plTwang{0%,100%{transform:none}30%{transform:translateY(-2px)}60%{transform:translateY(1.5px)}}
-.preloader.done{transform:translateY(-100%);opacity:.6}
-@media(prefers-reduced-motion:reduce){.preloader.fire .pl-arrow{transition-duration:.15s}html.js .preloader{transition-duration:.3s}}
+.pl-wm{font:700 19px/1 'Space Grotesk',system-ui,sans-serif;letter-spacing:.34em;margin:28px 0 0 .34em;color:#E0F2FE}.pl-wm span{color:#22D3EE}
+.preloader.fire .pl-status{color:#E0F2FE}
+.preloader.fire .pl-glow2{opacity:1}
+.preloader.fire .pl-arrow{transition:transform .55s cubic-bezier(.5,0,.75,0);transform:translateY(-120vh)!important}
+.preloader.fire .pl-trail{animation:plTrail .9s ease-out forwards}
+@keyframes plTrail{0%{transform:scaleY(0);opacity:1}45%{transform:scaleY(1);opacity:.9}100%{transform:scaleY(1);opacity:0}}
+.preloader.fire .pl-string{animation:plTwang .4s ease-out}
+@keyframes plTwang{0%,100%{transform:none}30%{transform:translateY(-3px)}60%{transform:translateY(2px)}}
+.preloader.done{transform:translateY(-100%)}
+@media(prefers-reduced-motion:reduce){.pl-bits span{animation:none;opacity:.25}html.js .preloader{transition-duration:.3s}}
