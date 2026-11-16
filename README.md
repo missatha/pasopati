@@ -12,7 +12,7 @@ Purwarupa Kartika Cyber Hackathon 2026, kategori Penangkalan. Perintah operasi d
 |---|---|---|
 | **Mega Rosita, S.Tr.Kom.** | Project Lead · System Logic | Pengujian produk keamanan TI, evaluasi Common Criteria (ISO/IEC 15408), manajemen mutu (ISO/IEC 17025) |
 | **Dr. Esti Rahmawati Agustina, S.ST., M.M.T.** | Cryptography | Kriptografi, standardisasi keamanan informasi, pengujian dan sertifikasi perangkat TI |
-| **Wanodya Estithama, S.Tr.Kom.** ([@missatha](https://github.com/missatha)) | UI/UX | Manajemen risiko siber sektoral, tata kelola keamanan siber, ketahanan infrastruktur informasi vital |
+| **Wanodya Estithama, S.Tr.Kom.** ([@missatha](https://github.com/missatha)) | UI/UX & Creative Designer| Manajemen risiko siber sektoral, tata kelola keamanan siber, ketahanan infrastruktur informasi vital |
 
 Semua sandi berjalan **langsung di browser**, tanpa server:
 
