@@ -5,7 +5,6 @@
 Purwarupa Kartika Cyber Hackathon 2026, kategori Penangkalan. Perintah operasi dan logistik militer yang **tak bisa ditiru** dan **tahan komputer kuantum**.
 
 🔗 **Coba langsung:** https://missatha.github.io/pasopati/
-🎬 **Video demo:** [YouTube](LINK_YOUTUBE) — *PASOPATI 🏹 – Tim Cyberbaddies | Demo Post-Quantum Cryptography untuk Kartika Cyber Hackathon 2026*
 
 ## Tim Cyberbaddies
 
