@@ -160,12 +160,13 @@ addEventListener("DOMContentLoaded", function(){
   }
   draw(); { const pre = new URLSearchParams(location.search).get("akun"); const bt = pre && accs.querySelector(`.kn-acc[data-id="${pre}"]`); if (bt) bt.click(); }
   setInterval(() => { if (!pending) draw(); }, 3000); PQNet.on(m => { if (m.type === "akses" || m.type === "reset") draw(); });
-  function enter(id, mfa){ PQNet.loginOk(id); sessionStorage.setItem("pq2.sesi", JSON.stringify({ id, t: Date.now(), mfa })); location.href = "ruang.html"; }
+  async function enter(id, mfa){ PQNet.loginOk(id); if (window.__pw) { msg.className = "kn-msg"; msg.textContent = L("Membuka brankas kunci…", "Opening key vault…"); await new Promise((r) => setTimeout(r, 30)); try { await PQNet.unlock(id, window.__pw); } catch (e) { console.warn(e); } window.__pw = null; } sessionStorage.setItem("pq2.sesi", JSON.stringify({ id, t: Date.now(), mfa })); location.href = "ruang.html"; }
   // Langkah 1: kata sandi
   $("login").onsubmit = async e => { e.preventDefault(); if (!pick) return;
     const wait = PQNet.lockLeft(pick); if (wait) return bad(msg, L(`Terlalu banyak percobaan. Coba lagi dalam ${wait} detik.`, `Too many attempts. Try again in ${wait} seconds.`));
     if (PQNet.revoked()[pick]) return bad(msg, L("Akses akun ini sudah dicabut Pusat Komando.", "This account's access has been revoked by Command Center."));
     if (!PQNet.checkPassword(pick, pw.value)) { await PQNet.loginFailed(pick, "sandi"); pw.select(); const w = PQNet.lockLeft(pick); return bad(msg, w ? L(`Kata sandi salah 3 kali. Akun dikunci ${w} detik.`, `Wrong password 3 times. Account locked for ${w} seconds.`) : L("Kata sandi salah.", "Wrong password.")); }
+    window.__pw = pw.value;
     if (!PQNet.totpEnrolled(pick)) return enter(pick, 0);
     msg.className = "kn-msg ok"; msg.textContent = L("✔ Kata sandi benar. Akun ini memakai 2FA.", "✔ Password correct. This account uses 2FA.");
     pending = pick; step2(pick); };

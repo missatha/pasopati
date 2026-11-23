@@ -134,7 +134,7 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
   const PRIO = { Normal: L("Normal", "Normal"), Segera: L("Segera", "Urgent"), Kilat: L("Kilat", "Flash") };
   const ACT = { LOGIN: L("masuk", "signed in"), LOGOUT: L("keluar", "signed out"), KIRIM: L("mengirim perintah", "sent an order"), TERIMA: L("menerima paket sah", "accepted a valid packet"),
     TOLAK: L("menolak paket", "rejected a packet"), BALAS: L("membalas perintah", "replied to an order"), LAPOR_LOGISTIK: L("mencatat logistik", "recorded logistics"),
-    CABUT: L("mencabut akses", "revoked access"), PULIHKAN: L("memulihkan akses", "restored access"), AUDIT: L("menjalankan audit", "ran an audit"), KUNCI_TERBIT: L("menerbitkan kunci (PKI)", "issued keys (PKI)"), RESET: L("mereset demo", "reset the demo"), MFA_ON: L("mengaktifkan 2FA", "turned on 2FA"), MFA_OFF: L("menonaktifkan 2FA", "turned off 2FA"), LOGIN_GAGAL: L("percobaan login gagal", "failed sign-in attempt"), MODUL_ON: L("MEMASANG modul PASOPATI", "INSTALLED the PASOPATI module"), MODUL_OFF: L("melepas modul PASOPATI", "removed the PASOPATI module") };
+    CABUT: L("mencabut akses", "revoked access"), PULIHKAN: L("memulihkan akses", "restored access"), AUDIT: L("menjalankan audit", "ran an audit"), KUNCI_TERBIT: L("menerbitkan kunci (PKI)", "issued keys (PKI)"), KUNCI_TERDAFTAR: L("mendaftarkan kunci akun baru", "registered a new account key"), RESET: L("mereset demo", "reset the demo"), MFA_ON: L("mengaktifkan 2FA", "turned on 2FA"), MFA_OFF: L("menonaktifkan 2FA", "turned off 2FA"), LOGIN_GAGAL: L("percobaan login gagal", "failed sign-in attempt"), MODUL_ON: L("MEMASANG modul PASOPATI", "INSTALLED the PASOPATI module"), MODUL_OFF: L("melepas modul PASOPATI", "removed the PASOPATI module") };
 
   // ---------- header ----------
   $("idc").innerHTML = `<span class="em ${ROLE === "PENYUSUP" ? "red" : ""}">${A.em}</span><span><b>${me}</b><small>${esc(A.label[EN ? 1 : 0])}</small></span>`;
@@ -368,6 +368,11 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
     PQNet.on((m) => { if (Object.keys(PQNet.registry()).length) location.reload(); });
   }
   function noKeyScreen() {
+    if (PQNet.NET === "online") {
+      $("lock").hidden = false; $("lock").innerHTML = `<div class="card"><div class="em" style="margin:0 auto">🔐</div><h3 style="margin-top:12px">${L("Buka brankas kunci", "Open the key vault")}</h3><p class="soft">${L("Kunci rahasia akun ini tersimpan terenkripsi dengan password. Masukkan password untuk membukanya di perangkat ini.", "This account's private key is stored encrypted with its password. Enter the password to open it on this device.")}</p><input id="kpw" type="password" autocomplete="current-password" placeholder="${L("Password", "Password")}" style="width:100%;margin:10px 0;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:16px"><button class="btn btn-gold" id="kgo">${L("Buka", "Open")}</button><p class="soft" id="kmsg" style="margin-top:8px"></p></div>`;
+      const go = async () => { const pw = $("kpw").value; if (!PQNet.checkPassword(me, pw)) { $("kmsg").textContent = L("Password salah.", "Wrong password."); return; } $("kmsg").textContent = L("Membuka kunci…", "Opening key…"); await new Promise((r) => setTimeout(r, 30)); const r = await PQNet.unlock(me, pw); if (r === "gagal") { $("kmsg").textContent = L("Brankas tidak bisa dibuka.", "Vault could not be opened."); return; } location.reload(); };
+      $("kgo").onclick = go; $("kpw").onkeydown = (e) => { if (e.key === "Enter") go(); }; $("kpw").focus(); return;
+    }
     $("lock").hidden = false; $("lock").innerHTML = `<div class="card"><div class="em red" style="margin:0 auto">🔑</div><h3 style="margin-top:12px">${L("Kunci rahasia tidak ada di perangkat ini", "Private key is not on this device")}</h3><p class="soft">${L("Kunci akun ini dibuat di perangkat Pusat Komando dan tidak pernah dikirim lewat jaringan. Buka akun ini di perangkat Pusat Komando.", "This account's key was created on the Command Center device and is never sent over the network. Open this account on the Command Center device.")}</p>${ROLE === "KOMANDO" ? `<button class="btn btn-gold" id="nkr">↺ ${L("Terbitkan kunci baru (Reset demo)", "Issue new keys (Reset demo)")}</button>` : ""}</div>`;
     if ($("nkr")) $("nkr").onclick = async () => { await PQNet.resetAll(me); location.reload(); };
   }
@@ -376,8 +381,9 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
   }
   (async () => {
     const pk = await PQNet.ensurePKI(me);
-    if (pk === "tunggu" || !Object.keys(PQNet.registry()).length) { waitScreen(); return; }
-    if (ROLE !== "PENYUSUP" && !PQNet.hasKey(me)) { noKeyScreen(); return; }
+    if (pk === "tunggu") { waitScreen(); return; }
+    if (ROLE === "PENYUSUP" && !PQNet.hasKey(me)) await PQNet.unlock(me, "");
+    if (ROLE !== "PENYUSUP" && !PQNet.keyValid(me)) { noKeyScreen(); return; }
     if (PQNet.revoked()[me]) { revokedScreen(); return; }
     if (!STAGE && ROLE !== "PENYUSUP") { const s = JSON.parse(sessionStorage.getItem("pq2.sesi")); if (!s.logged) { await PQNet.appendJejak(me, "LOGIN", { mfa: s.mfa ? 1 : 0 }); s.logged = 1; sessionStorage.setItem("pq2.sesi", JSON.stringify(s)); } }
     if (["SATUAN", "KOMANDO"].includes(ROLE)) await PQNet.processInbox(me);
