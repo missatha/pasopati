@@ -15,7 +15,7 @@ const CTX_HANDSHAKE = te.encode('QS-HANDSHAKE-v1');
 const CTX_COMMAND = te.encode('QS-COMMAND-v1');
 const CTX_LOGISTICS = te.encode('QS-LOGISTICS-v1');
 const FRESHNESS = 120, HANDSHAKE_WINDOW = 120;
-const GENESIS = '0'.repeat(64);
+const GENESIS = '0'.repeat(96);
 
 const b64e = (u8) => { let s = ''; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode(...u8.subarray(i, i + 0x8000)); return btoa(s); };
 const b64d = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
@@ -115,7 +115,7 @@ function verifyCommand(env, me, registry, guard) {
 }
 
 // ---------- ledger logistik ----------
-const txHash = (prev, bodyJson, sig) => bytesToHex(sha256(te.encode(prev + bodyJson + sig)));
+const txHash = (prev, bodyJson, sig) => bytesToHex(sha384(te.encode(prev + bodyJson + sig)));
 function createTx(node, jenis, item, qty, dari, ke) {
   const body = { type: 'LOGISTICS_TX', id: hex(6), signer: node.name, jenis, item, qty: parseInt(qty, 10), dari, ke, ts: now() };
   return { body, sig: b64e(sign(node.sigSk, canonical(body), CTX_LOGISTICS)) };

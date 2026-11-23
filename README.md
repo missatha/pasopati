@@ -5,6 +5,7 @@
 Purwarupa Kartika Cyber Hackathon 2026, kategori Penangkalan. Perintah operasi dan logistik militer yang **tak bisa ditiru** dan **tahan komputer kuantum**.
 
 🔗 **Coba langsung:** https://missatha.github.io/pasopati/
+🎬 **Video demo:** [YouTube](LINK_YOUTUBE) — *PASOPATI 🏹 – Tim Cyberbaddies | Demo Post-Quantum Cryptography untuk Kartika Cyber Hackathon 2026*
 
 ## Tim Cyberbaddies
 
@@ -12,7 +13,7 @@ Purwarupa Kartika Cyber Hackathon 2026, kategori Penangkalan. Perintah operasi d
 |---|---|---|
 | **Mega Rosita, S.Tr.Kom.** | Project Lead · System Logic | Pengujian produk keamanan TI, evaluasi Common Criteria (ISO/IEC 15408), manajemen mutu (ISO/IEC 17025) |
 | **Dr. Esti Rahmawati Agustina, S.ST., M.M.T.** | Cryptography | Kriptografi, standardisasi keamanan informasi, pengujian dan sertifikasi perangkat TI |
-| **Wanodya Estithama, S.Tr.Kom.** ([@missatha](https://github.com/missatha)) | UI/UX & Creative Designer| Manajemen risiko siber sektoral, tata kelola keamanan siber, ketahanan infrastruktur informasi vital |
+| **Wanodya Estithama, S.Tr.Kom.** ([@missatha](https://github.com/missatha)) | UI/UX | Manajemen risiko siber sektoral, tata kelola keamanan siber, ketahanan infrastruktur informasi vital |
 
 Semua sandi berjalan **langsung di browser**, tanpa server:
 
@@ -23,7 +24,7 @@ Semua sandi berjalan **langsung di browser**, tanpa server:
 | Kunci klasik (hibrida) | X25519 | RFC 7748 |
 | Penurunan kunci | HKDF-SHA384 | RFC 5869 |
 | Segel pesan | AES-256-GCM | NIST SP 800-38D |
-| Rantai register | SHA-256 | FIPS 180-4 |
+| Rantai register | SHA-384 | FIPS 180-4 |
 
 ## Halaman
 
@@ -60,4 +61,4 @@ Membangun ulang mesin: `cd sumber-mesin && npm install && npm run build`
 
 Akun siap pakai: PUSKOM-01, SATUAN-ALFA, SATUAN-BRAVO, PENYUSUP-X, AUDITOR-01. Password dibagikan tim kepada juri (lihat Buku Panduan Demo).
 
-Catatan: situs ini statis (tanpa server), jadi password hanya gerbang demo dan semua akun berjalan di satu browser. Pemisahan data tetap dipaksakan oleh sandi: tiap pesan disegel dengan kunci ML-KEM + X25519 milik penerimanya.
+Jaringan demo berjalan lewat Supabase yang dianggap **tidak tepercaya**: server hanya meneruskan paket tersegel. Kunci rahasia PUSKOM dan satuan dibuat dan disimpan di perangkat Pusat Komando, tidak pernah dikirim ke server. Penonton bisa login sebagai PENYUSUP-X dari HP masing-masing. Tambahkan `?net=lokal` di URL untuk mode satu browser tanpa internet.

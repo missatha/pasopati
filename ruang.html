@@ -57,6 +57,16 @@ table.t tr.broken td{background:rgba(251,113,133,.08)}
 .tw{overflow:auto;max-height:420px}
 .lock{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(5,8,28,.9);backdrop-filter:blur(6px)}
 .lock[hidden]{display:none}
+.mb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px;padding:10px 14px;border-radius:12px;font:600 13px var(--mono);border:1px solid}
+.mb.on{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.4);color:#6EE7B7}
+.mb.off{background:rgba(244,63,94,.12);border-color:rgba(244,63,94,.55);color:#FDA4AF;animation:mbp 1.6s ease-in-out infinite}
+@keyframes mbp{50%{box-shadow:0 0 0 4px rgba(244,63,94,.18)}}
+.mb .sp{flex:1}.mb .nt{opacity:.75;font-weight:500}
+.pill.warn{background:rgba(251,191,36,.15);color:#FCD34D;border:1px solid rgba(251,191,36,.5)}
+.by{color:#FDA4AF;font:600 12px var(--mono)}
+.plaintext{margin-top:6px;padding:8px 10px;border-radius:8px;background:rgba(251,191,36,.1);border:1px dashed rgba(251,191,36,.5);color:#FDE68A;font:600 13px var(--mono)}
+.atkin{display:grid;gap:8px;margin:0 0 10px}.atkin input{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--text);font:500 14px var(--sans,inherit)}
+.atkin label{font:600 11px var(--mono);letter-spacing:.08em;color:var(--soft);text-transform:uppercase}
 .lock .card{max-width:380px;text-align:center}
 .lock input{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--text);font:600 20px var(--mono);letter-spacing:.4em;text-align:center;width:160px;margin:14px 0}
 .flash{animation:fl 1s ease-out}@keyframes fl{from{box-shadow:0 0 0 3px rgba(34,211,238,.55)}to{box-shadow:0 0 0 0 rgba(34,211,238,0)}}
@@ -77,6 +87,7 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
 <main class="grid" id="app" aria-live="off"></main>
 <div class="lock" id="lock" hidden></div>
 
+<script src="assets/pasopati-net.js"></script>
 <script src="assets/pasopati-jaringan.js"></script>
 <script>
 (function () {
@@ -91,6 +102,7 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
   const A = me && PQNet.account(me);
   if (!A) { location.replace(page("konsol")); return; }
   document.title = me + " · PASOPATI";
+  let NICK = sessionStorage.getItem("pq2.nick") || "";
   const ROLE = A.role, time = (t) => new Date(t).toLocaleTimeString(EN ? "en-GB" : "id-ID", { hour12: false });
 
   // ---------- teks pemeriksaan ----------
@@ -102,9 +114,12 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
     tujuan: [L("Ditujukan ke akun ini", "Addressed to this account")],
     segar: [L("Masih berlaku (maks 120 detik)", "Still valid (max 120 seconds)")],
     ulang: [L("Bukan kiriman ulang", "Not a replay")],
+    modul: [L("Diterima TANPA pemeriksaan", "Accepted WITHOUT any check")],
   };
+  CK.segel[1].polos = L("pesan tanpa segel & tanpa paraf ditolak modul PASOPATI", "unsealed, unsigned message rejected by the PASOPATI module");
   function detail(c) {
     const d = c.d || "";
+    if (c.k === "modul") return L("modul PASOPATI nonaktif: isi, pengirim, dan waktu tidak diperiksa", "PASOPATI module off: content, sender and time not checked");
     if (c.k === "segel") return c.ok ? L("kunci hibrida ML-KEM + X25519 cocok", "hybrid ML-KEM + X25519 key matches") : (CK.segel[1][d] || d);
     if (c.k === "pengirim") { if (d.startsWith("tak-dikenal:")) return L("tidak terdaftar: ", "not registered: ") + d.slice(12); if (d.startsWith("dicabut:")) return d.slice(8) + L(" sudah dicabut aksesnya", "'s access has been revoked"); return d; }
     if (c.k === "wewenang") return d.replace(">", " → ");
@@ -115,17 +130,18 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
     return d;
   }
   const failText = (k) => k ? (CK[k] ? CK[k][0] : k) : "";
-  const ckList = (checks) => `<ul class="ck">${checks.map((c) => `<li class="${c.ok ? "y" : "x"}">${c.ok ? "✔" : "✘"} ${esc(CK[c.k] ? CK[c.k][0] : c.k)} <span class="dim">— ${esc(detail(c))}</span></li>`).join("")}</ul>`;
+  const ckList = (checks) => `<ul class="ck">${checks.map((c) => `<li class="${c.k === "modul" ? "x" : c.ok ? "y" : "x"}">${c.k === "modul" ? "⚠" : c.ok ? "✔" : "✘"} ${esc(CK[c.k] ? CK[c.k][0] : c.k)} <span class="dim">— ${esc(detail(c))}</span></li>`).join("")}</ul>`;
   const PRIO = { Normal: L("Normal", "Normal"), Segera: L("Segera", "Urgent"), Kilat: L("Kilat", "Flash") };
   const ACT = { LOGIN: L("masuk", "signed in"), LOGOUT: L("keluar", "signed out"), KIRIM: L("mengirim perintah", "sent an order"), TERIMA: L("menerima paket sah", "accepted a valid packet"),
     TOLAK: L("menolak paket", "rejected a packet"), BALAS: L("membalas perintah", "replied to an order"), LAPOR_LOGISTIK: L("mencatat logistik", "recorded logistics"),
-    CABUT: L("mencabut akses", "revoked access"), PULIHKAN: L("memulihkan akses", "restored access"), AUDIT: L("menjalankan audit", "ran an audit"), KUNCI_TERBIT: L("menerbitkan kunci (PKI)", "issued keys (PKI)"), RESET: L("mereset demo", "reset the demo"), MFA_ON: L("mengaktifkan 2FA", "turned on 2FA"), MFA_OFF: L("menonaktifkan 2FA", "turned off 2FA"), LOGIN_GAGAL: L("percobaan login gagal", "failed sign-in attempt") };
+    CABUT: L("mencabut akses", "revoked access"), PULIHKAN: L("memulihkan akses", "restored access"), AUDIT: L("menjalankan audit", "ran an audit"), KUNCI_TERBIT: L("menerbitkan kunci (PKI)", "issued keys (PKI)"), RESET: L("mereset demo", "reset the demo"), MFA_ON: L("mengaktifkan 2FA", "turned on 2FA"), MFA_OFF: L("menonaktifkan 2FA", "turned off 2FA"), LOGIN_GAGAL: L("percobaan login gagal", "failed sign-in attempt"), MODUL_ON: L("MEMASANG modul PASOPATI", "INSTALLED the PASOPATI module"), MODUL_OFF: L("melepas modul PASOPATI", "removed the PASOPATI module") };
 
   // ---------- header ----------
   $("idc").innerHTML = `<span class="em ${ROLE === "PENYUSUP" ? "red" : ""}">${A.em}</span><span><b>${me}</b><small>${esc(A.label[EN ? 1 : 0])}</small></span>`;
   $("badges").innerHTML = (STAGE ? "" : `<span class="tb hide-emb" id="idle" title="${L("Sesi terkunci otomatis bila tidak aktif", "Session locks automatically when idle")}">⏱ 5:00</span>`) +
     (ROLE === "KOMANDO" && !STAGE ? `<button class="tb" id="stage">▣ ${L("Mode panggung", "Stage mode")}</button>` : "") +
     (STAGE ? "" : `<button class="tb" id="mfa">🔐 2FA</button>`) +
+    (ROLE === "KOMANDO" && !STAGE ? `<button class="tb" id="qrb">▦ QR</button>` : "") +
     (ROLE === "KOMANDO" ? `<button class="tb warn" id="reset">↺ ${L("Reset demo", "Reset demo")}</button>` : "") +
     (STAGE ? "" : `<a class="tb" href="${page("konsol")}" id="out">⎋ ${L("Keluar", "Sign out")}</a>`);
   const NTK = {
@@ -134,7 +150,12 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
     AUDITOR: L("<b>Hanya baca:</b> Auditor memeriksa register logistik dan jejak audit, tetapi tidak bisa mengirim perintah atau mengubah data.", "<b>Read-only:</b> the Auditor checks the logistics register and audit trail, but cannot send orders or change data."),
     PENYUSUP: L("<b>Kamu penyusup.</b> Kamu tidak terdaftar di PKI resmi. Kamu bisa melihat dan menyuntik paket di jaringan, tetapi isinya hanya kode acak.", "<b>You are the intruder.</b> You are not in the official PKI. You can see and inject packets on the network, but their contents are just random data."),
   };
-  $("ntk").innerHTML = `<div class="ntk ${ROLE === "PENYUSUP" ? "red" : ""}">${NTK[ROLE]}</div>`;
+  $("ntk").innerHTML = `<div id="mbar"></div><div class="ntk ${ROLE === "PENYUSUP" ? "red" : ""}">${NTK[ROLE]}</div>`;
+  const NETTX = { online: L("● online · ruang ", "● online · room ") + PQNet.ROOM, lokal: L("○ mode lokal (1 browser)", "○ local mode (1 browser)"), menyambung: L("… menyambung", "… connecting") };
+  function modulBar() {
+    const on = PQNet.modulOn(), st = PQNet.netStatus();
+    return put("mbar", `<div class="mb ${on ? "on" : "off"}"><span>${on ? "🛡 " + L("MODUL PASOPATI TERPASANG", "PASOPATI MODULE INSTALLED") : "⚠ " + L("TANPA MODUL PASOPATI · sistem lama", "NO PASOPATI MODULE · legacy system")}</span><span class="nt">${on ? L("paraf ML-DSA-65 + segel ML-KEM-768/X25519 aktif", "ML-DSA-65 signature + ML-KEM-768/X25519 seal active") : L("pesan dikirim tanpa paraf & segel per perintah", "messages sent without per-order signature & seal")}</span><span class="sp"></span><span class="nt">${NETTX[st] || st}</span>${ROLE === "KOMANDO" ? `<button class="tb ${on ? "warn" : ""}" id="mtog">${on ? L("Lepas modul", "Remove module") : L("Pasang modul", "Install module")}</button>` : ""}</div>`);
+  }
 
   // ---------- panel per peran ----------
   const app = $("app");
@@ -165,10 +186,12 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
     app.innerHTML =
       P("p-net", L("Paket yang lewat di jaringan", "Packets crossing the network"), L("Pilih satu paket, lalu serang. Kamu hanya melihat alamat dan kode acak.", "Pick a packet, then attack. You only see addresses and random data."), `<div id="net"></div>`, "") +
       P("p-atk", L("Serang paket terpilih", "Attack the selected packet"), `<span id="selinfo">${L("Belum ada paket dipilih.", "No packet selected.")}</span>`,
-        `<div class="atk">
+        `<div class="atkin"><label for="nick">${L("Nama panggilanmu", "Your nickname")}</label><input id="nick" maxlength="24" placeholder="${L("mis. Budi", "e.g. Budi")}">
+          <label for="atx">${L("Isi perintah palsu / ubahan", "Fake / altered order text")}</label><input id="atx" maxlength="120" value="${L("Tarik mundur seluruh pasukan", "Withdraw all troops")}"></div>
+         <div class="atk">
           <button data-k="read" disabled>🔓 ${L("Coba baca isinya", "Try to read it")}</button>
           <button data-k="replay" disabled>↻ ${L("Kirim ulang", "Replay")}</button>
-          <button data-k="tamper" disabled>✎ ${L("Ubah 1 bit", "Flip 1 bit")}</button>
+          <button data-k="tamper" disabled>✎ ${L("Ubah isi pesan", "Change message")}</button>
           <button data-k="delay" disabled>⧗ ${L("Tahan 1 jam", "Hold 1 hour")}</button>
           <button data-k="misroute" disabled>⇄ ${L("Belokkan ke satuan lain", "Redirect to another unit")}</button>
           <button data-k="forge" disabled>⚑ ${L("Palsukan perintah PUSKOM", "Forge a PUSKOM order")}</button>
@@ -197,6 +220,7 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
   const pill = (r) => !r ? `<span class="pill wait">${L("MENUNGGU", "PENDING")}</span>` : r.ok ? `<span class="pill ok">${L("DITERIMA", "ACCEPTED")}</span>` : `<span class="pill bad">${L("DITOLAK", "REJECTED")}</span>`;
   const put = (id, html) => { const el = $(id); if (el._h === html) return false; el.innerHTML = html; el._h = html; return true; };
   function render() {
+    if (modulBar() && $("mtog")) $("mtog").onclick = async () => { const on = !PQNet.modulOn(); if (!on && !confirm(L("Lepas modul PASOPATI? Sistem kembali ke mode lama tanpa paraf & segel.", "Remove the PASOPATI module? The system goes back to legacy mode without signature & seal."))) return; await PQNet.setModul(me, on); render(); };
     const res = PQNet.results(), reg = PQNet.registry(), rev = PQNet.revoked();
     if (ROLE === "KOMANDO") {
       const toSel = $("to"), cur = toSel.value;
@@ -206,13 +230,13 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
       const sent = PQNet.sent().slice().reverse();
       const ch_sent = put("sent", sent.length ? sent.map((s) => { const r = res[s.pid], rp = replies.filter((x) => x.body.data.ref === s.ref);
         return `<div class="it ${r && !r.ok ? "bad" : ""}"><div class="hd"><b>${esc(s.data.op)}</b>${pill(r)}</div>
-          <div class="meta">→ ${s.to} · ${esc(s.data.target || "")} · ${PRIO[s.data.prio] || esc(s.data.prio)} · ${time(s.t)} · ${s.bytes} B ${L("tersegel", "sealed")}</div>
+          <div class="meta">→ ${s.to} · ${esc(s.data.target || "")} · ${PRIO[s.data.prio] || esc(s.data.prio)} · ${time(s.t)} · ${s.bytes} B ${s.plain ? `<span class="bad">${L("polos", "plain")}</span>` : L("tersegel", "sealed")}</div>
           ${rp.map((x) => `<div class="meta ok">↩ ${x.body.from}: “${esc(x.body.data.text)}” · ${L("paraf sah", "valid signature")}</div>`).join("")}</div>`; }).join("")
         : `<div class="empty">// ${L("belum ada perintah terkirim", "no orders sent yet")}</div>`);
       const pk = PQNet.packets(), alerts = Object.entries(res).filter(([, v]) => !v.ok).sort((a, b) => b[1].t - a[1].t).slice(0, 20);
       const ch_alert = put("alert", alerts.length ? alerts.map(([pid, v]) => { const p = pk.find((x) => x.pid === pid) || {};
         return `<div class="it bad"><div class="hd"><b>${L("Ditolak oleh", "Rejected by")} ${v.by}</b><span class="pill bad">${L("DITOLAK", "REJECTED")}</span></div>
-          <div class="meta">${L("mengaku dari", "claiming to be from")} ${esc(p.from || "?")} · ${L("gagal di", "failed at")}: <span class="bad">${esc(failText(v.fail))}</span> · ${time(v.t)}</div></div>`; }).join("")
+          <div class="meta">${L("mengaku dari", "claiming to be from")} ${esc(p.from || "?")} · ${L("gagal di", "failed at")}: <span class="bad">${esc(failText(v.fail))}</span> · ${time(v.t)}${p.inj && p.inj.by ? ` · <span class="by">🎭 ${esc(p.inj.by)}</span>` : ""}</div></div>`; }).join("")
         : `<div class="empty">// ${L("belum ada paket ditolak", "no rejected packets yet")}</div>`);
       const ch_acc = put("acc", PQNet.ACCOUNTS.map((a) => { const r = reg[a.id], dc = rev[a.id], live = PQNet.isActive(a.id);
         return `<tr><td><b>${a.id}</b><div class="meta">${esc(a.label[EN ? 1 : 0])}</div></td><td class="mono" style="font-size:12px">${r ? r.fp : `<span class="bad">${L("tidak terdaftar", "not registered")}</span>`}</td>
@@ -223,19 +247,19 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
     if (ROLE === "KOMANDO" || ROLE === "AUDITOR") {
       const rows = PQNet.register(), au = lastAudit ? Object.fromEntries(lastAudit.map((x) => [x.i, x])) : null;
       const ch_reg = put("reg", rows.map((r, i) => { const a = au && au[i];
-        return `<tr class="${a && !a.ok ? "broken" : ""}"><td>${i + 1}</td><td>${r.body.signer}</td><td>${esc(r.body.item)}<div class="meta">${esc(r.body.note || "")}</div></td><td><b>${esc(r.body.qty)}</b></td>${ROLE === "AUDITOR" ? `<td>${!a ? `<span class="dim">–</span>` : a.ok ? `<span class="pill ok">${L("UTUH", "INTACT")}</span>` : `<span class="pill bad">${L("RUSAK", "BROKEN")}</span><div class="meta bad">${a.probs.map((p) => ({ hash: L("hash tidak cocok (isi diubah)", "hash mismatch (content altered)"), paraf: L("paraf satuan tidak valid", "invalid unit signature"), rantai: L("rantai putus", "chain broken") }[p])).join("<br>")}</div>`}</td>` : ""}</tr>`; }).join(""));
+        return `<tr class="${a && !a.ok ? "broken" : ""}"><td>${i + 1}</td><td>${r.body.signer}</td><td>${esc(r.body.item)}<div class="meta">${esc(r.body.note || "")}</div></td><td><b>${esc(r.body.qty)}</b></td>${ROLE === "AUDITOR" ? `<td>${!a ? `<span class="dim">–</span>` : a.blind ? `<span class="pill wait">${L("TIDAK DAPAT DIVERIFIKASI", "CANNOT BE VERIFIED")}</span>` : a.ok ? `<span class="pill ok">${L("UTUH", "INTACT")}</span>` : `<span class="pill bad">${L("RUSAK", "BROKEN")}</span><div class="meta bad">${a.probs.map((p) => ({ hash: L("hash tidak cocok (isi diubah)", "hash mismatch (content altered)"), paraf: L("paraf satuan tidak valid", "invalid unit signature"), rantai: L("rantai putus", "chain broken"), "tanpa-paraf": L("dicatat tanpa paraf (modul nonaktif)", "recorded without signature (module off)") }[p])).join("<br>")}</div>`}</td>` : ""}</tr>`; }).join(""));
       const jj = PQNet.jejak().slice(-40).reverse(), bad = lastJejak ? new Set(lastJejak.probs.map((p) => p.i)) : new Set();
       const ch_jj = put("jj", jj.map((e) => `<tr class="${bad.has(e.i) ? "broken" : ""}"><td>${e.i}</td><td class="mono" style="font-size:12px">${time(e.t)}</td><td>${e.actor}</td><td>${ACT[e.act] || e.act}${e.act === "LOGIN" && e.detail && e.detail.mfa ? ` <span class="dim">(${L("sandi + 2FA", "password + 2FA")})</span>` : ""}${e.detail && (e.detail.to || e.detail.id) ? ` <span class="dim">→ ${esc(e.detail.to || e.detail.id)}</span>` : ""}${e.act === "TOLAK" && e.detail.alasan ? ` <span class="bad">(${esc(failText(e.detail.alasan))})</span>` : ""}</td></tr>`).join(""));
     }
     if (ROLE === "SATUAN") {
       const box = PQNet.inbox(me).slice().reverse(), rp = PQNet.replied(me);
-      const ok = box.filter((x) => x.ok && x.body.type === "ORDER"), bad = box.filter((x) => !x.ok);
+      const ok = box.filter((x) => x.ok && x.body && x.body.type === "ORDER"), bad = box.filter((x) => !x.ok);
       const ch_in = put("in", ok.length ? ok.map((x) => { const b = x.body, done = rp[b.nonce];
-        return `<div class="it" data-pid="${x.pid}"><div class="hd"><b>${esc(b.data.op)}${b.data.target ? " — " + esc(b.data.target) : ""}</b><span class="pill ok">${L("SAH", "VALID")}</span></div>
-          <div class="meta">${L("dari", "from")} ${b.from} · ${PRIO[b.data.prio] || esc(b.data.prio)} · ${L("no. urut", "seq.")} #${b.seq} · ${time(x.t)}</div>${ckList(x.checks)}
+        return `<div class="it" data-pid="${x.pid}"><div class="hd"><b>${esc(b.data.op)}${b.data.target ? " — " + esc(b.data.target) : ""}</b>${x.plain ? `<span class="pill warn">${L("DIJALANKAN", "EXECUTED")}</span>` : `<span class="pill ok">${L("SAH", "VALID")}</span>`}</div>
+          <div class="meta">${L("dari", "from")} ${b.from} · ${PRIO[b.data.prio] || esc(b.data.prio)} · ${L("no. urut", "seq.")} #${b.seq} · ${time(x.t)}${x.by ? ` · <span class="by">🎭 ${L("aslinya dari penyerang", "actually from attacker")}: ${esc(x.by)}</span>` : ""}</div>${ckList(x.checks)}
           <div class="acts">${done ? `<span class="meta ok">↩ ${L("dibalas", "replied")}: “${esc(done)}”</span>` : `<button class="btn btn-gold sm" data-rp="${b.nonce}" data-tx="${L("Siap, laksanakan.", "Roger, executing.")}">${L("Siap, laksanakan", "Roger, executing")}</button><button class="btn btn-ghost sm" data-rp="${b.nonce}" data-tx="${L("Mohon petunjuk.", "Requesting guidance.")}">${L("Mohon petunjuk", "Request guidance")}</button>`}</div></div>`; }).join("")
         : `<div class="empty">// ${L("belum ada perintah untuk", "no orders yet for")} ${me}</div>`);
-      const ch_rej = put("rej", bad.length ? bad.map((x) => `<div class="it bad"><div class="hd"><b>${L("Paket mengaku dari", "Packet claiming to be from")} ${esc(x.claimed)}</b><span class="pill bad">${L("DITOLAK", "REJECTED")}</span></div><div class="meta">${time(x.t)} · ${L("tidak dijalankan", "not executed")}</div>${ckList(x.checks)}</div>`).join("")
+      const ch_rej = put("rej", bad.length ? bad.map((x) => `<div class="it bad"><div class="hd"><b>${L("Paket mengaku dari", "Packet claiming to be from")} ${esc(x.claimed)}</b><span class="pill bad">${L("DITOLAK", "REJECTED")}</span></div><div class="meta">${time(x.t)} · ${L("tidak dijalankan", "not executed")}${x.by ? ` · <span class="by">🎭 ${esc(x.by)}</span>` : ""}</div>${ckList(x.checks)}</div>`).join("")
         : `<div class="empty">// ${L("belum ada paket ditolak", "no rejected packets yet")}</div>`);
       if (ch_in) $("in").querySelectorAll("[data-rp]").forEach((b) => b.onclick = async () => { b.disabled = true; await PQNet.sendReply(me, b.dataset.rp, b.dataset.tx); PQNet.markReplied(me, b.dataset.rp, b.dataset.tx); render(); });
     }
@@ -243,16 +267,16 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
       const pk = PQNet.packets().slice().reverse();
       const ch_net = put("net", pk.length ? pk.slice(0, 25).map((p) => { const r = res[p.pid];
         return `<div class="it pk ${selected === p.pid ? "sel" : ""}" data-pid="${p.pid}" tabindex="0" role="button" aria-pressed="${selected === p.pid}"><div class="hd"><b class="mono" style="font-size:13px">#${p.pid} · ${p.from} → ${p.to}</b>${pill(r)}</div>
-          <div class="meta">${p.bytes} B · ${time(p.t)}${p.inj ? ` · <span class="bad">${L("suntikanmu", "your injection")}: ${esc(p.inj.kind)}</span>` : ""}</div><div class="ctx">${esc(p.ct.slice(0, 160))}…</div></div>`; }).join("")
+          <div class="meta">${p.bytes} B · ${time(p.t)}${p.inj ? ` · <span class="bad">${L("suntikanmu", "your injection")}: ${esc(p.inj.kind)}</span>` : ""}</div>${p.plain ? `<div class="plaintext">📖 ${esc(p.plain.type === "ORDER" ? p.plain.data.op + (p.plain.data.target ? " — " + p.plain.data.target : "") : p.plain.data.text || "")}</div>` : `<div class="ctx">${esc(p.ct.slice(0, 160))}…</div>`}</div>`; }).join("")
         : `<div class="empty">// ${L("jaringan masih sepi. Tunggu Komandan mengirim perintah.", "the network is quiet. Wait for the Commander to send an order.")}</div>`);
       if (ch_net) $("net").querySelectorAll(".pk").forEach((el) => { const pickIt = () => { selected = el.dataset.pid; render(); };
         el.onclick = pickIt; el.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickIt(); } }; });
       const sp = pk.find((p) => p.pid === selected);
       $("selinfo").textContent = sp ? `#${sp.pid} · ${sp.from} → ${sp.to}` : L("Belum ada paket dipilih.", "No packet selected.");
       document.querySelectorAll(".atk button").forEach((b) => b.disabled = !sp);
-      const mine = pk.filter((p) => p.inj).slice(0, 12), KN = { replay: L("Kirim ulang", "Replay"), tamper: L("Ubah 1 bit", "Flip 1 bit"), delay: L("Tahan 1 jam", "Hold 1 hour"), misroute: L("Belokkan", "Redirect"), forge: L("Palsukan PUSKOM", "Forge PUSKOM") };
+      const mine = pk.filter((p) => p.inj && (!NICK || p.inj.by === NICK)).slice(0, 12), KN = { replay: L("Kirim ulang", "Replay"), tamper: L("Ubah isi", "Change content"), delay: L("Tahan 1 jam", "Hold 1 hour"), misroute: L("Belokkan", "Redirect"), forge: L("Palsukan PUSKOM", "Forge PUSKOM") };
       const ch_mine = put("mine", mine.length ? mine.map((p) => { const r = res[p.pid];
-        return `<div class="it ${r && !r.ok ? "bad" : ""}"><div class="hd"><b>${KN[p.inj.kind]} #${p.inj.of}</b>${pill(r)}</div><div class="meta">→ ${p.to}${r ? (r.ok ? "" : ` · ${L("gagal di", "failed at")}: ${esc(failText(r.fail))}`) : ` · ${L("menunggu", "waiting for")} ${p.to} ${L("memeriksa", "to check")}`}</div></div>`; }).join("")
+        return `<div class="it ${r && !r.ok ? "bad" : ""}"><div class="hd"><b>${KN[p.inj.kind]} #${p.inj.of}${p.inj.by ? ` · <span class="by">${esc(p.inj.by)}</span>` : ""}</b>${r && r.ok && r.plain ? `<span class="pill bad">${L("BERHASIL 😈", "SUCCEEDED 😈")}</span>` : pill(r)}</div><div class="meta">→ ${p.to}${r ? (r.ok ? "" : ` · ${L("gagal di", "failed at")}: ${esc(failText(r.fail))}`) : ` · ${L("menunggu", "waiting for")} ${p.to} ${L("memeriksa", "to check")}`}</div></div>`; }).join("")
         : `<div class="empty">// ${L("belum ada serangan", "no attacks yet")}</div>`);
     }
   }
@@ -261,7 +285,8 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
   if (ROLE === "KOMANDO") {
     $("fs").onsubmit = async (e) => { e.preventDefault(); const fb = $("sfb"); fb.className = "fb"; fb.textContent = L("memaraf & menyegel…", "signing & sealing…");
       try { const r = await PQNet.sendOrder(me, $("to").value, { op: $("op").value.trim(), target: $("tg").value.trim(), prio: $("pr").value });
-        fb.className = "fb ok"; fb.textContent = "✔ " + L("terkirim", "sent") + ` · ${r.bytes} B ${L("tersegel", "sealed")} · ` + L("paraf 3.309 B", "signature 3,309 B"); }
+        if (r.plain) { fb.className = "fb bad"; fb.textContent = "⚠ " + L("terkirim TANPA paraf & segel", "sent WITHOUT signature & seal") + ` · ${r.bytes} B ${L("teks polos", "plain text")}`; }
+        else { fb.className = "fb ok"; fb.textContent = "✔ " + L("terkirim", "sent") + ` · ${r.bytes} B ${L("tersegel", "sealed")} · ` + L("paraf 3.309 B", "signature 3,309 B"); } }
       catch (err) { fb.className = "fb bad"; fb.textContent = "✘ " + err.message; } render(); };
   }
   if (ROLE === "SATUAN") {
@@ -271,23 +296,29 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
   }
   if (ROLE === "PENYUSUP") {
     document.querySelectorAll(".atk button").forEach((b) => b.onclick = async () => { const fb = $("afb"); if (!selected) return;
-      if (b.dataset.k === "read") { const r = PQNet.tryOpenAsIntruder(selected); fb.className = "fb bad";
-        fb.textContent = r === "gagal" ? "✘ " + L("Gagal: paket ini disegel untuk kunci ML-KEM penerima, bukan milikmu.", "Failed: this packet is sealed to the recipient's ML-KEM key, not yours.") : r; return; }
-      try { await PQNet.attack(b.dataset.k, selected); fb.className = "fb"; fb.textContent = "→ " + L("paket disuntikkan ke jaringan, menunggu penerima memeriksa…", "packet injected into the network, waiting for the recipient to check…"); }
+      if (b.dataset.k === "read") { const r = PQNet.tryOpenAsIntruder(selected);
+        if (r === "polos") { const p = PQNet.packets().find((x) => x.pid === selected).plain; fb.className = "fb ok"; fb.textContent = "📖 " + L("TERBACA: ", "READABLE: ") + (p.type === "ORDER" ? `${p.data.op} — ${p.data.target || ""} (${p.from} → ${p.to})` : p.data.text); return; }
+        fb.className = "fb bad"; fb.textContent = r === "gagal" ? "✘ " + L("Gagal: paket ini disegel untuk kunci ML-KEM penerima, bukan milikmu.", "Failed: this packet is sealed to the recipient's ML-KEM key, not yours.") : r; return; }
+      try { await PQNet.attack(b.dataset.k, selected, { by: NICK, text: $("atx").value }); fb.className = "fb"; fb.textContent = "→ " + L("paket disuntikkan ke jaringan, menunggu penerima memeriksa…", "packet injected into the network, waiting for the recipient to check…"); }
       catch (err) { fb.className = "fb bad"; fb.textContent = "✘ " + err.message; } render(); });
     $("fi").onsubmit = (e) => e.preventDefault();
+    $("nick").value = NICK; $("nick").oninput = () => { NICK = $("nick").value.trim().slice(0, 24); sessionStorage.setItem("pq2.nick", NICK); render(); };
     document.querySelectorAll("#fi [data-r]").forEach((b) => b.onclick = async (e) => { e.preventDefault(); const ok = await PQNet.tamperRegister(parseInt($("ii").value, 10) - 1, parseInt($("iq").value, 10), b.dataset.r === "1");
       $("ifb").className = "fb " + (ok ? "" : "bad"); $("ifb").textContent = ok ? "→ " + L("data diubah. Sekarang minta Auditor menjalankan audit.", "data changed. Now ask the Auditor to run an audit.") : "✘ " + L("baris tidak ada", "row doesn't exist"); });
     $("erase").onclick = async () => { const n = PQNet.jejak().length; const ok = n > 2 && await PQNet.eraseAudit(Math.floor(n / 2));
       $("ifb").className = "fb"; $("ifb").textContent = ok ? "→ " + L("satu baris jejak dihapus. Minta Auditor memeriksa jejak audit.", "one audit row deleted. Ask the Auditor to verify the audit trail.") : "✘"; };
   }
   if (ROLE === "AUDITOR") {
-    $("aud").onclick = async () => { lastAudit = PQNet.auditRegister(); const bad = lastAudit.filter((x) => !x.ok).length;
+    $("aud").onclick = async () => { lastAudit = PQNet.auditRegister();
+      if (lastAudit.some((x) => x.blind)) { $("afb2").className = "fb bad"; $("afb2").textContent = "⚠ " + L("Tanpa modul PASOPATI, catatan tidak punya paraf & rantai hash. Auditor tidak bisa tahu mana yang diubah.", "Without the PASOPATI module, records have no signature or hash chain. The auditor can't tell what was changed."); render(); return; }
+      const bad = lastAudit.filter((x) => !x.ok).length;
       $("afb2").className = "fb " + (bad ? "bad" : "ok"); $("afb2").textContent = bad ? `✘ ${bad} ${L("catatan terdeteksi dimanipulasi", "record(s) detected as tampered")}` : `✔ ${L("seluruh", "all")} ${lastAudit.length} ${L("catatan utuh dan asli", "records intact and authentic")}`;
       await PQNet.appendJejak(me, "AUDIT", { id: "register" }); render(); };
   }
   if (ROLE === "KOMANDO" || ROLE === "AUDITOR") {
-    $("vj").onclick = async () => { lastJejak = PQNet.verifyJejak(); const n = lastJejak.probs.length, gap = lastJejak.probs.find((p) => p.k === "hilang");
+    $("vj").onclick = async () => { lastJejak = PQNet.verifyJejak();
+      if (lastJejak.blind) { $("vfb").className = "fb bad"; $("vfb").textContent = "⚠ " + L("Tanpa modul PASOPATI, jejak audit tidak bisa diverifikasi.", "Without the PASOPATI module, the audit trail can't be verified."); lastJejak = null; render(); return; }
+      const n = lastJejak.probs.length, gap = lastJejak.probs.find((p) => p.k === "hilang");
       $("vfb").className = "fb " + (n ? "bad" : "ok");
       $("vfb").textContent = n ? `✘ ${L("jejak audit rusak", "audit trail broken")}: ${gap ? L("ada baris yang hilang sebelum #", "a row is missing before #") + gap.i : n + L(" masalah", " issue(s)")}` : `✔ ${lastJejak.n} ${L("baris utuh, paraf dan rantai cocok", "rows intact, signatures and chain match")}`;
       render(); };
@@ -319,16 +350,34 @@ body.emb .grid{grid-template-columns:1fr;padding:10px 12px 30px;gap:12px}body.em
     $("mx").onclick = closeModal; $("mc").focus();
   }
   if ($("mfa")) $("mfa").onclick = mfaModal;
+  if ($("qrb")) $("qrb").onclick = () => {
+    const url = location.href.replace(/ruang\.html.*$/, "konsol.html") + "?akun=PENYUSUP-X&room=" + encodeURIComponent(PQNet.ROOM);
+    lock.hidden = false;
+    lock.innerHTML = `<div class="card" style="max-width:520px"><h3>${L("Jadi penyusup dari HP-mu", "Be the intruder from your phone")}</h3><div style="background:#fff;border-radius:14px;padding:10px;margin:14px auto;width:300px">${PQNet.qrSvg(url, 6)}</div>
+      <p class="soft" style="font:600 15px var(--mono)">${L("Akun", "Account")}: PENYUSUP-X · ${L("Sandi", "Password")}: <span style="color:var(--hl)">Bayangan#666</span></p><p class="soft" style="font-size:12px;word-break:break-all">${esc(url)}</p>
+      <button class="btn btn-ghost sm" id="qx">${L("Tutup", "Close")}</button></div>`;
+    $("qx").onclick = closeModal;
+  };
   if ($("stage")) $("stage").onclick = () => { sessionStorage.setItem("pq2.panggung", "1"); location.href = page("panggung"); };
 
   // ---------- siklus hidup ----------
   let timer = null; const tick = () => { clearTimeout(timer); timer = setTimeout(async () => { if (["SATUAN", "KOMANDO"].includes(ROLE)) await PQNet.processInbox(me); render(); }, 120); };
   PQNet.on((m) => { if (m.type === "reset") { location.reload(); return; } if (m.type === "akses" && m.id === me && m.on) { revokedScreen(); return; } tick(); });
+  function waitScreen() {
+    $("lock").hidden = false; $("lock").innerHTML = `<div class="card"><div class="em" style="margin:0 auto">⏳</div><h3 style="margin-top:12px">${L("Menunggu Pusat Komando", "Waiting for Command Center")}</h3><p class="soft">${L("Kunci demo belum diterbitkan. Halaman ini akan terbuka otomatis begitu Pusat Komando masuk.", "Demo keys haven't been issued yet. This page opens automatically once Command Center signs in.")}</p></div>`;
+    PQNet.on((m) => { if (Object.keys(PQNet.registry()).length) location.reload(); });
+  }
+  function noKeyScreen() {
+    $("lock").hidden = false; $("lock").innerHTML = `<div class="card"><div class="em red" style="margin:0 auto">🔑</div><h3 style="margin-top:12px">${L("Kunci rahasia tidak ada di perangkat ini", "Private key is not on this device")}</h3><p class="soft">${L("Kunci akun ini dibuat di perangkat Pusat Komando dan tidak pernah dikirim lewat jaringan. Buka akun ini di perangkat Pusat Komando.", "This account's key was created on the Command Center device and is never sent over the network. Open this account on the Command Center device.")}</p>${ROLE === "KOMANDO" ? `<button class="btn btn-gold" id="nkr">↺ ${L("Terbitkan kunci baru (Reset demo)", "Issue new keys (Reset demo)")}</button>` : ""}</div>`;
+    if ($("nkr")) $("nkr").onclick = async () => { await PQNet.resetAll(me); location.reload(); };
+  }
   function revokedScreen() {
     $("lock").hidden = false; $("lock").innerHTML = `<div class="card"><div class="em red" style="margin:0 auto">⛔</div><h3 style="margin-top:12px">${L("Akses dicabut", "Access revoked")}</h3><p class="soft">${L("Pusat Komando mencabut akses akun ini. Semua pesan berparaf dari akun ini akan ditolak.", "Command Center has revoked this account's access. Every message signed by it will be rejected.")}</p>${STAGE ? "" : `<a class="btn btn-ghost" href="${page("konsol")}">${L("Kembali", "Back")}</a>`}</div>`;
   }
   (async () => {
-    await PQNet.ensurePKI();
+    const pk = await PQNet.ensurePKI(me);
+    if (pk === "tunggu" || !Object.keys(PQNet.registry()).length) { waitScreen(); return; }
+    if (ROLE !== "PENYUSUP" && !PQNet.hasKey(me)) { noKeyScreen(); return; }
     if (PQNet.revoked()[me]) { revokedScreen(); return; }
     if (!STAGE && ROLE !== "PENYUSUP") { const s = JSON.parse(sessionStorage.getItem("pq2.sesi")); if (!s.logged) { await PQNet.appendJejak(me, "LOGIN", { mfa: s.mfa ? 1 : 0 }); s.logged = 1; sessionStorage.setItem("pq2.sesi", JSON.stringify(s)); } }
     if (["SATUAN", "KOMANDO"].includes(ROLE)) await PQNet.processInbox(me);

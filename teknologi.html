@@ -126,7 +126,7 @@
         <tr><td>Kunci klasik (hibrida)</td><td class="m">X25519</td><td class="soft">RFC 7748</td></tr>
         <tr><td>Penurunan kunci</td><td class="m">HKDF-SHA384</td><td class="soft">RFC 5869</td></tr>
         <tr><td>Segel pesan</td><td class="m">AES-256-GCM</td><td class="soft">NIST SP 800-38D</td></tr>
-        <tr><td>Rantai register</td><td class="m">SHA-256</td><td class="soft">FIPS 180-4</td></tr>
+        <tr><td>Rantai register</td><td class="m">SHA-384</td><td class="soft">FIPS 180-4</td></tr>
       </table></div>
     <div class="reveal" style="display:flex;flex-direction:column;gap:16px">
       <div class="card"><h3>Kenapa hibrida (dua lapis)?</h3><p class="soft" style="margin-top:10px">Kunci sesi diturunkan dari X25519 <b style="color:var(--text)">dan</b> ML-KEM sekaligus. Selama masa peralihan, kalau salah satu kelak ditemukan lemah, yang lain masih menjaga. Pendekatan gabungan ini juga sedang dijajaki gugus tugas BSSN.</p></div>

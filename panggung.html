@@ -25,6 +25,10 @@ select.tb{cursor:pointer}
 .col.net{border-color:var(--bad-line);border-style:dashed}
 .col .cap{display:flex;align-items:center;justify-content:space-between;gap:8px;font:600 11px var(--mono);letter-spacing:.1em;color:var(--soft);padding:8px 12px;border-bottom:1px solid var(--line)}
 .col iframe{flex:1;width:100%;border:0;min-height:0;background:var(--bg)}
+.tb.on{border-color:rgba(52,211,153,.6);color:#6EE7B7}.tb.off{border-color:rgba(244,63,94,.7);color:#FDA4AF;background:rgba(244,63,94,.12)}
+button.tb{cursor:pointer}
+.qm{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(5,8,28,.92)}.qm[hidden]{display:none}
+.qm .card{text-align:center;max-width:640px}.qm .q{background:#fff;border-radius:16px;padding:12px;margin:16px auto;width:380px}
 @media(max-width:1000px){body{overflow:auto}.cols{grid-template-columns:1fr}.col{height:80vh}}
 </style>
 </head>
@@ -33,14 +37,16 @@ select.tb{cursor:pointer}
   <a class="brand" href="index.html"><img src="assets/logo-kotak.png" alt="">PASOPATI</a>
   <span class="t" id="tt">MODE PANGGUNG · 3 LAYAR</span>
   <span class="sp"></span>
-  <div class="badges"><label class="sr-only" for="right">Layar kanan</label><select class="tb" id="right"><option>SATUAN-ALFA</option><option>SATUAN-BRAVO</option><option>AUDITOR-01</option></select>
+  <div class="badges"><span class="tb" id="net">…</span><button class="tb" id="mod">…</button><button class="tb" id="qr">▦ QR</button><label class="sr-only" for="right">Layar kanan</label><select class="tb" id="right"><option>SATUAN-ALFA</option><option>SATUAN-BRAVO</option><option>AUDITOR-01</option></select>
   <a class="tb" href="konsol.html" id="out">⎋ Keluar panggung</a></div>
 </header>
+<div class="qm" id="qm" hidden></div>
 <div class="cols">
   <div class="col"><div class="cap" id="c1">PUSAT KOMANDO</div><iframe id="f1" title="PUSKOM-01"></iframe></div>
   <div class="col net"><div class="cap" id="c2">JARINGAN · YANG DILIHAT PENYUSUP</div><iframe id="f2" title="PENYUSUP-X"></iframe></div>
   <div class="col"><div class="cap" id="c3">PENERIMA</div><iframe id="f3" title="SATUAN-ALFA"></iframe></div>
 </div>
+<script src="assets/pasopati-net.js"></script>
 <script src="assets/pasopati-jaringan.js"></script>
 <script>
 (function () {
@@ -51,7 +57,15 @@ select.tb{cursor:pointer}
   $("out").textContent = "⎋ " + L("Keluar panggung", "Leave stage");
   $("out").onclick = () => sessionStorage.removeItem("pq2.panggung");
   const src = (a) => "ruang.html?panggung=1&akun=" + encodeURIComponent(a);
-  PQNet.ensurePKI().then(() => {
+  const mod = () => { const on = PQNet.modulOn(); $("mod").className = "tb " + (on ? "on" : "off"); $("mod").textContent = on ? "🛡 " + L("Modul: TERPASANG", "Module: INSTALLED") : "⚠ " + L("Modul: DILEPAS", "Module: REMOVED");
+    const st = PQNet.netStatus(); $("net").textContent = st === "online" ? "● online · " + PQNet.ROOM : st === "lokal" ? L("○ lokal", "○ local") : "… " + st; };
+  $("mod").onclick = async () => { await PQNet.setModul("PUSKOM-01", !PQNet.modulOn()); mod(); };
+  $("qr").onclick = () => { const url = location.href.replace(/panggung\.html.*$/, "konsol.html") + "?akun=PENYUSUP-X&room=" + encodeURIComponent(PQNet.ROOM);
+    $("qm").hidden = false; $("qm").innerHTML = `<div class="card"><h2 style="margin:0">${L("Coba retas kami dari HP-mu", "Try to hack us from your phone")}</h2><div class="q">${PQNet.qrSvg(url, 8)}</div>
+      <p style="font:600 20px var(--mono)">PENYUSUP-X · <span style="color:var(--hl)">Bayangan#666</span></p><p class="soft" style="font-size:13px;word-break:break-all">${url}</p><button class="btn btn-ghost sm" id="qx">${L("Tutup", "Close")}</button></div>`;
+    $("qx").onclick = () => { $("qm").hidden = true; }; };
+  PQNet.on(() => mod()); setInterval(mod, 3000);
+  PQNet.ensurePKI("PUSKOM-01").then(() => { mod();
     $("f1").src = src("PUSKOM-01"); $("f2").src = src("PENYUSUP-X"); $("f3").src = src("SATUAN-ALFA");
     $("right").onchange = (e) => { $("f3").src = src(e.target.value); $("f3").title = e.target.value; };
   });

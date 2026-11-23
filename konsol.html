@@ -139,6 +139,7 @@
   <p class="soft kn-note">Catatan purwarupa: semua akun berjalan di satu browser, jadi kunci tiap akun tersimpan di browser yang sama dan kata sandi dan 2FA hanya gerbang demo. Pemisahan data tetap nyata di level sandi. Di lapangan, tiap akun memegang kuncinya sendiri di perangkat atau kartu pintar.</p>
 </div></section>
 
+<script src="assets/pasopati-net.js"></script>
 <script src="assets/pasopati-jaringan.js"></script>
 <script>
 addEventListener("DOMContentLoaded", function(){
@@ -157,7 +158,8 @@ addEventListener("DOMContentLoaded", function(){
     accs.querySelectorAll(".kn-acc").forEach(b => b.onclick = () => { pick = b.dataset.id; pending = null; tfa.hidden = true; const a = PQNet.account(pick);
       $("who").textContent = pick + " · " + a.label[EN?1:0]; pw.disabled = false; go.disabled = false; msg.textContent = ""; pw.value = ""; draw(); pw.focus(); });
   }
-  draw(); setInterval(() => { if (!pending) draw(); }, 3000); PQNet.on(m => { if (m.type === "akses" || m.type === "reset") draw(); });
+  draw(); { const pre = new URLSearchParams(location.search).get("akun"); const bt = pre && accs.querySelector(`.kn-acc[data-id="${pre}"]`); if (bt) bt.click(); }
+  setInterval(() => { if (!pending) draw(); }, 3000); PQNet.on(m => { if (m.type === "akses" || m.type === "reset") draw(); });
   function enter(id, mfa){ PQNet.loginOk(id); sessionStorage.setItem("pq2.sesi", JSON.stringify({ id, t: Date.now(), mfa })); location.href = "ruang.html"; }
   // Langkah 1: kata sandi
   $("login").onsubmit = async e => { e.preventDefault(); if (!pick) return;
